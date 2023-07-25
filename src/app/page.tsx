@@ -19,7 +19,7 @@ export default function Home() {
 						<img
 							src='https://m.media-amazon.com/images/M/MV5BNDNiOWM5NGItNzY4NC00MDg1LTljZjctYzViNmRlOTNhOWM2XkEyXkFqcGdeQXVyNjc3OTE4Nzk@._V1_FMjpg_UX1000_.jpg'
 							alt='thumb'
-							className='px-2 '
+							className=' px-2'
 						/>
 						<div className='name grid-span-2'>
 							<h2>name</h2>
@@ -48,65 +48,65 @@ export default function Home() {
 					<div className='absolute left-4 top-2 text-xs font-normal text-black'>Truyện</div>
 					<div className='absolute left-20 top-2 text-xs font-bold uppercase text-black underline'>mới</div>
 				</div>
-
-				{/* chưa chia row */}
-				<div className='bottom relative flex grid-cols-3 gap-2 py-2'>
-					<div className='card px-2'>
-						<img
-							src='https://m.media-amazon.com/images/M/MV5BNDNiOWM5NGItNzY4NC00MDg1LTljZjctYzViNmRlOTNhOWM2XkEyXkFqcGdeQXVyNjc3OTE4Nzk@._V1_FMjpg_UX1000_.jpg'
-							alt=''
-							className=''
-						/>
-						<div className='name'>
-							<h2>konosuba</h2>
+				<div className=''>
+					<div className='bottom relative flex grid-cols-3 gap-2 py-2 sm:grid-cols-4'>
+						<div className='card px-2'>
+							<img
+								src='https://m.media-amazon.com/images/M/MV5BNDNiOWM5NGItNzY4NC00MDg1LTljZjctYzViNmRlOTNhOWM2XkEyXkFqcGdeQXVyNjc3OTE4Nzk@._V1_FMjpg_UX1000_.jpg'
+								alt=''
+								className=''
+							/>
+							<div className='name'>
+								<h2>konosuba</h2>
+							</div>
+						</div>
+						<div className='card px-2'>
+							<img
+								src='https://m.media-amazon.com/images/M/MV5BNDNiOWM5NGItNzY4NC00MDg1LTljZjctYzViNmRlOTNhOWM2XkEyXkFqcGdeQXVyNjc3OTE4Nzk@._V1_FMjpg_UX1000_.jpg'
+								alt=''
+							/>
+							<div className='name'>
+								<h2>konosuba</h2>
+							</div>
+						</div>
+						<div className='card px-2'>
+							<img
+								src='https://m.media-amazon.com/images/M/MV5BNDNiOWM5NGItNzY4NC00MDg1LTljZjctYzViNmRlOTNhOWM2XkEyXkFqcGdeQXVyNjc3OTE4Nzk@._V1_FMjpg_UX1000_.jpg'
+								alt=''
+							/>
+							<div className='name'>
+								<h2>konosuba</h2>
+							</div>
 						</div>
 					</div>
-					<div className='card px-2'>
-						<img
-							src='https://m.media-amazon.com/images/M/MV5BNDNiOWM5NGItNzY4NC00MDg1LTljZjctYzViNmRlOTNhOWM2XkEyXkFqcGdeQXVyNjc3OTE4Nzk@._V1_FMjpg_UX1000_.jpg'
-							alt=''
-						/>
-						<div className='name'>
-							<h2>konosuba</h2>
+					<div className='bottom relative flex grid-cols-3 gap-2 py-2'>
+						<div className='card px-2'>
+							<img
+								src='https://m.media-amazon.com/images/M/MV5BNDNiOWM5NGItNzY4NC00MDg1LTljZjctYzViNmRlOTNhOWM2XkEyXkFqcGdeQXVyNjc3OTE4Nzk@._V1_FMjpg_UX1000_.jpg'
+								alt=''
+								className=''
+							/>
+							<div className='name'>
+								<h2>konosuba</h2>
+							</div>
 						</div>
-					</div>
-					<div className='card px-2'>
-						<img
-							src='https://m.media-amazon.com/images/M/MV5BNDNiOWM5NGItNzY4NC00MDg1LTljZjctYzViNmRlOTNhOWM2XkEyXkFqcGdeQXVyNjc3OTE4Nzk@._V1_FMjpg_UX1000_.jpg'
-							alt=''
-						/>
-						<div className='name'>
-							<h2>konosuba</h2>
+						<div className='card px-2'>
+							<img
+								src='https://m.media-amazon.com/images/M/MV5BNDNiOWM5NGItNzY4NC00MDg1LTljZjctYzViNmRlOTNhOWM2XkEyXkFqcGdeQXVyNjc3OTE4Nzk@._V1_FMjpg_UX1000_.jpg'
+								alt=''
+							/>
+							<div className='name'>
+								<h2>konosuba</h2>
+							</div>
 						</div>
-					</div>
-				</div>
-				<div className='bottom relative flex grid-cols-3 gap-2 py-2'>
-					<div className='card px-2'>
-						<img
-							src='https://m.media-amazon.com/images/M/MV5BNDNiOWM5NGItNzY4NC00MDg1LTljZjctYzViNmRlOTNhOWM2XkEyXkFqcGdeQXVyNjc3OTE4Nzk@._V1_FMjpg_UX1000_.jpg'
-							alt=''
-							className=''
-						/>
-						<div className='name'>
-							<h2>konosuba</h2>
-						</div>
-					</div>
-					<div className='card px-2'>
-						<img
-							src='https://m.media-amazon.com/images/M/MV5BNDNiOWM5NGItNzY4NC00MDg1LTljZjctYzViNmRlOTNhOWM2XkEyXkFqcGdeQXVyNjc3OTE4Nzk@._V1_FMjpg_UX1000_.jpg'
-							alt=''
-						/>
-						<div className='name'>
-							<h2>konosuba</h2>
-						</div>
-					</div>
-					<div className='card px-2'>
-						<img
-							src='https://m.media-amazon.com/images/M/MV5BNDNiOWM5NGItNzY4NC00MDg1LTljZjctYzViNmRlOTNhOWM2XkEyXkFqcGdeQXVyNjc3OTE4Nzk@._V1_FMjpg_UX1000_.jpg'
-							alt=''
-						/>
-						<div className='name'>
-							<h2>konosuba</h2>
+						<div className='card px-2'>
+							<img
+								src='https://m.media-amazon.com/images/M/MV5BNDNiOWM5NGItNzY4NC00MDg1LTljZjctYzViNmRlOTNhOWM2XkEyXkFqcGdeQXVyNjc3OTE4Nzk@._V1_FMjpg_UX1000_.jpg'
+								alt=''
+							/>
+							<div className='name'>
+								<h2>konosuba</h2>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -121,7 +121,6 @@ export default function Home() {
 					<div className='absolute left-20 top-2 text-xs font-bold uppercase text-black underline'>mới</div>
 				</div>
 
-				{/* chưa chia row */}
 				<div className='bottom relative flex grid-cols-3 gap-2 py-2'>
 					<div className='card px-2'>
 						<img
