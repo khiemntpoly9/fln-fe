@@ -10,6 +10,7 @@ import 'swiper/css/autoplay';
 
 
 export default function Home() {
+
 	const [activeTab, setActiveTab] = useState('Nổi bật');
 
 	const handleTabClick = (tabName: string) => {
@@ -126,7 +127,7 @@ export default function Home() {
 					</Swiper>
 				</div>
 			</div>
-
+			{/*end silde */}
 		</main>
 	);
 }
