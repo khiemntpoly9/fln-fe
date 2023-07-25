@@ -14,7 +14,7 @@ export default function Home() {
 				<SlideNoiBat />
 			</div>
 
-			<div className='mx-auto mt-2 w-10/12 '>
+			<div className=' mx-auto mt-2 w-10/12'>
 				<LichSuDoc />
 
 				<TruyenMoi />
