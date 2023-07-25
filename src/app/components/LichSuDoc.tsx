@@ -18,10 +18,10 @@ const LichSuDoc = () => {
 					<img
 						src='https://m.media-amazon.com/images/M/MV5BNDNiOWM5NGItNzY4NC00MDg1LTljZjctYzViNmRlOTNhOWM2XkEyXkFqcGdeQXVyNjc3OTE4Nzk@._V1_FMjpg_UX1000_.jpg'
 						alt='thumb'
-						className=' px-2'
+						className='px-2 lg:h-48'
 					/>
 					<div className='name grid-span-2'>
-						<h2 className='text-xs sm:text-base'>name</h2>
+						<h2 className='text-xs sm:text-base lg:text-xl'>name</h2>
 						<span>tóm tắt dưmadkwamdkadwdnakwn</span>
 					</div>
 				</div>
@@ -29,10 +29,10 @@ const LichSuDoc = () => {
 					<img
 						src='https://m.media-amazon.com/images/M/MV5BNDNiOWM5NGItNzY4NC00MDg1LTljZjctYzViNmRlOTNhOWM2XkEyXkFqcGdeQXVyNjc3OTE4Nzk@._V1_FMjpg_UX1000_.jpg'
 						alt='thumb'
-						className='rounded-md px-2 '
+						className='rounded-md px-2 lg:h-48'
 					/>
 					<div className='name grid-span-2'>
-						<h2>name</h2>
+						<h2 className='text-xs sm:text-base lg:text-xl'>name</h2>
 						<span>tóm tắt dưmadkwamdkadwdnakwn</span>
 					</div>
 				</div>
