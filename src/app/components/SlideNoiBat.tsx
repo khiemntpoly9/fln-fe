@@ -17,7 +17,7 @@ const SlideNoiBat = () => {
 	return (
 		<div>
 			{/*start silde */}
-			<div className='flex-row  '>
+			<div className='flex-row'>
 				<div className='nav mx-auto mt-3 flex w-10/12 space-x-4 md:w-10/12 md:items-center'>
 					<div
 						className={`n-i-b-t  cursor-pointer rounded px-2 py-2 text-sm text-black transition   md:text-base ${

@@ -9,15 +9,20 @@ import ChuongMoi from './components/ChuongMoi';
 
 export default function Home() {
 	return (
-		<main className='bg-white'>
+		<main className='mx-auto bg-white'>
 			<div className='slide'>
 				<SlideNoiBat />
 			</div>
 
-			<div className=' mx-auto mt-2 w-10/12'>
-				<LichSuDoc />
-
-				<TruyenMoi />
+			<div className='mt-2 w-full'>
+				<div className='flex flex-col justify-center gap-2 lg:flex-row'>
+					<div className='order-2 mx-auto w-10/12 lg:order-1 lg:m-0 lg:w-6/12'>
+						<TruyenMoi />
+					</div>
+					<div className='order-1 mx-auto w-10/12	lg:order-2 lg:m-0 lg:w-4/12'>
+						<LichSuDoc />
+					</div>
+				</div>
 
 				<ChuongMoi />
 			</div>
