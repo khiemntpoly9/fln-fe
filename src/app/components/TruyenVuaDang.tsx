@@ -31,7 +31,7 @@ const TruyenVuaDang = () => {
 					</div>
 				</div>
 
-				<button className='item-center btn btn-outline btn-xs w-full  bg-orange-300 sm:btn-sm md:btn-md lg:btn-md'>
+				<button className='item-center btn btn-outline btn-xs w-full bg-orange-300 sm:btn-sm md:btn-md lg:btn-md hover:bg-orange-400'>
 					<span className='text-neutral-800'>Xem thêm</span>
 				</button>
 			</div>
