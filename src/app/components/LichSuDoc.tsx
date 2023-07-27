@@ -1,7 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
-
 import React from 'react';
-
+import Link from 'next/link';
 const LichSuDoc = () => {
 	return (
 		<div className='history-read relative w-full py-6'>
@@ -21,7 +20,9 @@ const LichSuDoc = () => {
 						className='px-2 lg:h-48'
 					/>
 					<div className='name grid-span-2'>
-						<h2 className='text-xs sm:text-base lg:text-xl'>name</h2>
+						<Link href='/truyen' className='text-xs sm:text-base lg:text-xl'>
+							Name
+						</Link>
 						<span>tóm tắt dưmadkwamdkadwdnakwn</span>
 					</div>
 				</div>
