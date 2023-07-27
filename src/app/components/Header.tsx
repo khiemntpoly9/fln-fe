@@ -1,4 +1,5 @@
 'use client';
+import Link from 'next/link';
 import Image from 'next/image';
 import Logo from './logo.svg';
 import 'animate.css';
@@ -71,9 +72,9 @@ export default function Header() {
 					</div>
 					{/* Logo */}
 					<div className='flex'>
-						<a className='text-xl normal-case'>
+						<Link href='/' className='text-xl normal-case'>
 							<Image src={Logo} alt='Logo' width={40} />
-						</a>
+						</Link>
 						<div className='nav-desktop hidden lg:block'>
 							<ul className='menu menu-horizontal'>
 								<li>
