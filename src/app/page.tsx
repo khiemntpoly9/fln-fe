@@ -28,10 +28,10 @@ export default function Home() {
 					</div>
 				</div>
 				<div className='flex flex-col justify-center gap-2 md:flex-row lg:flex-row'>
-					<div className='order-1 mx-auto w-10/12 md:w-6/12 md:pl-10 lg:pl-0 lg:order-1 lg:m-0 lg:w-6/12'>
+					<div className='order-1 mx-auto w-10/12 md:w-6/12 md:pl-10 lg:order-1 lg:m-0 lg:w-6/12 lg:pl-0'>
 						<ChuongMoi />
 					</div>
-					<div className='order-2 mx-auto w-10/12 md:w-4/12  lg:order-2 lg:m-0 lg:w-4/12'>
+					<div className='order-2 mx-auto w-10/12 md:w-4/12 lg:order-2 lg:m-0 lg:w-4/12'>
 						{/* Component theo dõi nhiều để ở đây */}
 						<TheoDoiNhieu />
 					</div>
