@@ -74,7 +74,7 @@ const ChuongMoi = () => {
 						<h2>konosuba</h2>
 					</div>
 				</div>
-				<div className='card md:hidden'>
+				<div className='card sm:hidden'>
 					<img
 						src='https://m.media-amazon.com/images/M/MV5BNDNiOWM5NGItNzY4NC00MDg1LTljZjctYzViNmRlOTNhOWM2XkEyXkFqcGdeQXVyNjc3OTE4Nzk@._V1_FMjpg_UX1000_.jpg'
 						alt=''
