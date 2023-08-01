@@ -141,7 +141,7 @@ export default function Header() {
 							</button>
 						</div>
 						{/* user */}
-						<a href='#'>
+						<Link href='/profile'>
 							<svg
 								xmlns='http://www.w3.org/2000/svg'
 								viewBox='0 0 24 24'
@@ -155,7 +155,7 @@ export default function Header() {
 									clipRule='evenodd'
 								/>
 							</svg>
-						</a>
+						</Link>
 					</div>
 				</div>
 			</div>

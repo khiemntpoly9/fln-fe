@@ -1,7 +1,20 @@
 /* eslint-disable @next/next/no-img-element */
+'use client';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+
+// Here you would fetch and return the user
+const useUser = () => ({ user: 1, loading: true });
 
 const ProfileUser = () => {
+	const { user, loading } = useUser();
+	const router = useRouter();
+	useEffect(() => {
+		if (!(user || loading)) {
+			router.push('/login');
+		}
+	}, [user, loading, router]);
 	return (
 		<div className='container mx-auto mt-4 w-10/12'>
 			{/* Breadcrumbs */}
