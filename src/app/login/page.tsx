@@ -52,9 +52,6 @@ export default function Login() {
 	//goi dang nhap
 	const handleSubmit = async (event: any) => {
 		event.preventDefault();
-		const logLogin = await login(email, password);
-		console.log(logLogin);
-		setAuth(logLogin);
 		if (validateForm()) {
 			const logLogin = await login(email, password);
 			// console.log(logLogin);
@@ -88,16 +85,11 @@ export default function Login() {
 									name='email'
 									value={email}
 									onChange={(e) => setEmail(e.target.value)}
-<<<<<<< HEAD
-									className='block w-full rounded-md border-0 p-2 ring-1 ring-inset ring-orange-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6'
-=======
 									className='block w-full rounded-md border-0 bg-orange-200 p-2 text-black ring-1 ring-inset ring-orange-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6'
->>>>>>> e3b0cf89da50667c806e3b8893b7b3adf45a54f0
 								/>
 								{errors.eremail && <span className='text-red-500'>{errors.eremail}</span>}
 							</div>
 						</div>
-
 						<div>
 							<div className='flex items-center justify-between'>
 								<label htmlFor='password' className='block text-sm font-medium leading-6 text-gray-900'>
@@ -116,11 +108,7 @@ export default function Login() {
 									type='password'
 									value={password}
 									onChange={(e) => setPassword(e.target.value)}
-<<<<<<< HEAD
-									className='block w-full rounded-md border-0 p-2 ring-1 ring-inset ring-orange-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6'
-=======
 									className='block w-full rounded-md border-0 bg-orange-200 p-2 text-black ring-1 ring-inset ring-orange-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6'
->>>>>>> e3b0cf89da50667c806e3b8893b7b3adf45a54f0
 								/>
 								{errors.erpassword && <span className='text-red-500'>{errors.erpassword}</span>}
 							</div>
