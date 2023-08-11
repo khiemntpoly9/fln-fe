@@ -99,6 +99,7 @@ export default function Register() {
 	const handleSubmit = async (event: any) => {
 		event.preventDefault();
 
+		//call api
 		if (validateForm()) {
 			const logRegister = await register(fullname, email, password);
 			console.log(logRegister);
