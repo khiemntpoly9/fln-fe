@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { FaFacebook, FaGoogle } from 'react-icons/fa';
 import { resign } from '../services/auth.service';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Register() {
 	const [fullname, setFullname] = useState<string>('');
@@ -18,7 +20,7 @@ export default function Register() {
 	const [fullnameSpecialCharsError, setFullnameSpecialCharsError] = useState<boolean>(false);
 	const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
 
-	const [isRegistered, setIsRegistered] = useState<boolean>(false);
+	// const [isRegistered, setIsRegistered] = useState<boolean>(false);
 
 	const handleFullnameChange = (value: string) => {
 		setFullname(value);
@@ -72,7 +74,15 @@ export default function Register() {
 		const logResign = await resign(fullname, email, password);
 		console.log(logResign);
 		setTimeout(() => {
-			setIsRegistered(true);
+			toast.success('Đã đăng ký thành công!', {
+				position: 'top-right',
+				autoClose: 3000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+			});
 		}, 1000);
 	};
 	const emailIsValid = (email: string): boolean => {
@@ -209,11 +219,11 @@ export default function Register() {
 							</div>
 						</div>
 						<div>
-							{isRegistered && (
+							{/* {isRegistered && (
 								<div className='rounded-md border border-green-400 bg-green-100 px-4 py-3 text-green-700'>
 									Đã đăng ký thành công!
 								</div>
-							)}
+							)} */}
 						</div>
 						<div>
 							<button
@@ -224,7 +234,7 @@ export default function Register() {
 							</button>
 						</div>
 					</form>
-
+					<ToastContainer />
 					<p className='mt-10 text-center text-sm text-gray-500'>
 						Bạn đã có tài khoản?{' '}
 						<a href='#' className='font-semibold leading-6 text-indigo-600 hover:text-indigo-500'>
