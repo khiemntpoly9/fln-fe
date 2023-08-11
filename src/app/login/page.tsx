@@ -1,21 +1,21 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
 import Link from 'next/link';
-
 import { useState } from 'react';
 import { login } from '../services/auth.service';
-
 import { FaFacebook, FaGoogle } from 'react-icons/fa';
+import useAuth from '../hooks/useAuth';
 
 export default function Login() {
+	const { setAuth } = useAuth();
 	const [email, setEmail] = useState<string>('');
 	const [password, setPassword] = useState<string>('');
-	// console.log(email, password);
 
 	const handleSubmit = async (event: any) => {
 		event.preventDefault();
 		const logLogin = await login(email, password);
 		console.log(logLogin);
+		setAuth(logLogin);
 	};
 
 	return (
@@ -46,7 +46,7 @@ export default function Login() {
 									type='email'
 									value={email}
 									onChange={(e) => setEmail(e.target.value)}
-									className='block w-full rounded-md border-0 py-1.5 text-gray-200 ring-1 ring-inset ring-orange-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6'
+									className='block w-full rounded-md border-0 p-2 ring-1 ring-inset ring-orange-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6'
 								/>
 							</div>
 						</div>
@@ -69,7 +69,7 @@ export default function Login() {
 									type='password'
 									value={password}
 									onChange={(e) => setPassword(e.target.value)}
-									className='block w-full rounded-md border-0 py-1.5 text-gray-200 ring-1 ring-inset ring-orange-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6'
+									className='block w-full rounded-md border-0 p-2 ring-1 ring-inset ring-orange-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6'
 								/>
 							</div>
 						</div>
