@@ -4,7 +4,7 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { FaFacebook, FaGoogle } from 'react-icons/fa';
-import { resign } from '../services/auth.service';
+import { register } from '../services/auth.service';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -22,57 +22,66 @@ export default function Register() {
 
 	// const [isRegistered, setIsRegistered] = useState<boolean>(false);
 
+	// fullname
 	const handleFullnameChange = (value: string) => {
 		setFullname(value);
 		setFullnameRequiredError(false);
 		setFullnameSpecialCharsError(false);
 	};
+	// password
 	const handlePasswordChange = (value: string) => {
 		setPassword(value);
 		if (isSubmitted) {
 			setPasswordMatchError(checkPassword !== value);
 		}
 	};
-
+	// checkpassword
 	const handleCheckPasswordChange = (value: string) => {
 		setCheckPassword(value);
 		if (isSubmitted) {
 			setPasswordMatchError(password !== value);
 		}
 	};
-	const handleSubmit = async (event: any) => {
-		event.preventDefault();
+	//dung dang email
+	const emailIsValid = (email: string): boolean => {
+		const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+		return emailPattern.test(email);
+	};
+	// validate
+	const validateForm = () => {
 		setIsSubmitted(true);
 
+		//validate so sanh mk giong nhau
 		if (password !== checkPassword) {
 			setPasswordMatchError(true);
-			return;
+			return false;
 		}
+		//validate fullname rog
 		if (fullname.trim() === '') {
 			setFullnameRequiredError(true);
-			return;
+			return false;
 		}
+		//validate ky tu dac biet fullname
 		const specialCharsRegex = /[!@#$%^&*(),.?":{}|<>]/;
 		if (specialCharsRegex.test(fullname)) {
 			setFullnameSpecialCharsError(true);
-			return;
+			return false;
 		}
-
+		//validate email
 		if (email.trim() === '') {
 			setEmailFormatError(false);
 		} else if (!emailIsValid(email)) {
 			setEmailFormatError(true);
-			return;
+			return false;
 		} else {
 			setEmailFormatError(false);
 		}
+		//validate password
 		if (password === '' || password.length < 8) {
 			setPasswordLengthError(true);
-			return;
+			return false;
 		}
-
-		const logResign = await resign(fullname, email, password);
-		console.log(logResign);
+		//settime da dang ky thanh cong
 		setTimeout(() => {
 			toast.success('Đã đăng ký thành công!', {
 				position: 'top-right',
@@ -84,11 +93,18 @@ export default function Register() {
 				progress: undefined,
 			});
 		}, 1000);
+		return true;
 	};
-	const emailIsValid = (email: string): boolean => {
-		const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-		return emailPattern.test(email);
+	//submit
+	const handleSubmit = async (event: any) => {
+		event.preventDefault();
+
+		if (validateForm()) {
+			const logRegister = await register(fullname, email, password);
+			console.log(logRegister);
+		}
 	};
+
 	return (
 		<div className='container mx-auto w-10/12 bg-white'>
 			<div className='flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8'>

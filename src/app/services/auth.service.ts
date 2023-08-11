@@ -1,9 +1,9 @@
 import newRequest from "../utils/newRequest";
 
 
-//resign user
+//register user
 
-export const resign = async (full_name:string,email:string,password:string) => {
+export const register= async (full_name:string,email:string,password:string) => {
     try {
         const respose = await newRequest.post('auth/register',{full_name,email,password});
         return respose.data;
