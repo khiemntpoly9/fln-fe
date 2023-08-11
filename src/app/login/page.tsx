@@ -12,10 +12,51 @@ export default function Login() {
 	const [password, setPassword] = useState<string>('');
 	// console.log(email, password);
 
+	//Validate
+	interface ErrorsType {
+		eremail?: string;
+		erpassword?: string;
+	}
+	const [errors, setErrors] = useState<ErrorsType>({});
+
+	const validateForm = () => {
+		const formErrors: { eremail: string; erpassword: string } = {
+			eremail: '',
+			erpassword: '',
+		};
+		let isValid = true;
+
+		//Validate username
+		if (!email) {
+			formErrors.eremail = 'Vui lòng nhập email vào';
+			isValid = false;
+		} else if (!/\S+@\S+\.\S+/.test(email)) {
+			formErrors.eremail = 'Email phải đúng định dạng có `@` và có `.com`';
+			isValid = false;
+		}
+
+		//Validate password
+		if (!password) {
+			formErrors.erpassword = 'Vui lòng nhập mật khẩu vào';
+			isValid = false;
+		} else if (password.length < 8) {
+			formErrors.erpassword = 'Mật khẩu có ít nhất 8 ký tự';
+			isValid = false;
+		}
+
+		setErrors(formErrors);
+
+		return isValid;
+	};
+	// end validate
+
+	//goi dang nhap
 	const handleSubmit = async (event: any) => {
 		event.preventDefault();
-		const logLogin = await login(email, password);
-		console.log(logLogin);
+		if (validateForm()) {
+			const logLogin = await login(email, password);
+			// console.log(logLogin);
+		}
 	};
 
 	return (
@@ -43,11 +84,11 @@ export default function Login() {
 								<input
 									id='email'
 									name='email'
-									type='email'
 									value={email}
 									onChange={(e) => setEmail(e.target.value)}
-									className='block w-full rounded-md border-0 py-1.5 text-gray-200 ring-1 ring-inset ring-orange-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6'
+									className='block w-full rounded-md border-0 bg-orange-200 p-2 text-black ring-1 ring-inset ring-orange-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6'
 								/>
+								{errors.eremail && <span className='text-red-500'>{errors.eremail}</span>}
 							</div>
 						</div>
 
@@ -69,8 +110,9 @@ export default function Login() {
 									type='password'
 									value={password}
 									onChange={(e) => setPassword(e.target.value)}
-									className='block w-full rounded-md border-0 py-1.5 text-gray-200 ring-1 ring-inset ring-orange-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6'
+									className='block w-full rounded-md border-0 bg-orange-200 p-2 text-black ring-1 ring-inset ring-orange-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6'
 								/>
+								{errors.erpassword && <span className='text-red-500'>{errors.erpassword}</span>}
 							</div>
 						</div>
 
