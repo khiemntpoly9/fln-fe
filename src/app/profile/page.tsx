@@ -2,22 +2,16 @@
 'use client';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useContext, useEffect } from 'react';
-import AuthContext from '../context/AuthProvider';
-
-// Here you would fetch and return the user
-// const useUser = () => ({ user: 1, loading: true });
+import { useQuery } from '@tanstack/react-query';
+import { profile } from '@/services/user.service';
 
 const ProfileUser = () => {
-	// const { user, loading } = useUser();
-	const router = useRouter();
-	const auth = useContext(AuthContext);
-	console.log(auth);
-	// useEffect(() => {
-	// 	if (!(user || loading)) {
-	// 		router.push('/login');
-	// 	}
-	// }, [user, loading, router]);
+	// const router = useRouter();
+	const { data, isLoading } = useQuery({
+		queryKey: ['profile'],
+		queryFn: profile,
+	});
+	console.log(data);
 	return (
 		<div className='container mx-auto mt-4 w-10/12'>
 			{/* Breadcrumbs */}
