@@ -21,7 +21,6 @@ newRequest.interceptors.response.use(
 			try {
 				// Gọi refreshToken ở đây và cập nhật token mới
 				const refreshedToken = await newRequest.post('auth/refresh');
-				console.log(refreshedToken.data.accessToken);
 				if (refreshedToken) {
 					newRequest.defaults.headers.common['Authorization'] = `Bearer ${refreshedToken.data.accessToken}`;
 					originalRequest.headers['Authorization'] = `Bearer ${refreshedToken.data.accessToken}`;

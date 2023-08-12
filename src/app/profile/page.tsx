@@ -6,12 +6,19 @@ import { useQuery } from '@tanstack/react-query';
 import { profile } from '@/services/user.service';
 
 const ProfileUser = () => {
-	// const router = useRouter();
-	const { data, isLoading } = useQuery({
+	const router = useRouter();
+	const { data, isLoading, error } = useQuery({
 		queryKey: ['profile'],
 		queryFn: profile,
 	});
-	console.log(data);
+	// Nếu chưa đăng nhập thì chuyển về trang login
+	if (error) {
+		router.push('/login');
+	}
+	// Nếu chưa load xong thì hiển thị loading
+	if (!data && isLoading) {
+		return <div>Loading...</div>;
+	}
 	return (
 		<div className='container mx-auto mt-4 w-10/12'>
 			{/* Breadcrumbs */}
