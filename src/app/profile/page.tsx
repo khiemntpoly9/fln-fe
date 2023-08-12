@@ -96,15 +96,9 @@ const ProfileUser = () => {
 					</div>
 					{/* end thanh công cụ */}
 					<div className='mb-5 mt-5 '>
-						<div className='py-1 text-sm  md:text-base'>
-							Tên tài khoản: <span className=''> Nguyễn Trung Khiêm</span>
-						</div>
-						<div className='py-1 text-sm md:text-base'>
-							Email: <span className=''> trungkhiem1412@gmail.com</span>
-						</div>
-						<div className='py-1  text-sm md:text-base'>
-							Tham gia: <span className=''> 17/7/2023</span>
-						</div>
+						<div className='py-1 text-sm  md:text-base'>Tên tài khoản: {data?.full_name}</div>
+						<div className='py-1 text-sm md:text-base'>Email: {data?.email}</div>
+						<div className='py-1  text-sm md:text-base'>Tham gia: {data?.created_at?.slice(0, 10)}</div>
 					</div>
 				</div>
 			</div>
