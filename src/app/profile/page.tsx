@@ -2,19 +2,16 @@
 'use client';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
-
-// Here you would fetch and return the user
-const useUser = () => ({ user: 1, loading: true });
+import { useQuery } from '@tanstack/react-query';
+import { profile } from '@/services/user.service';
 
 const ProfileUser = () => {
-	const { user, loading } = useUser();
-	const router = useRouter();
-	useEffect(() => {
-		if (!(user || loading)) {
-			router.push('/login');
-		}
-	}, [user, loading, router]);
+	// const router = useRouter();
+	const { data, isLoading } = useQuery({
+		queryKey: ['profile'],
+		queryFn: profile,
+	});
+	console.log(data);
 	return (
 		<div className='container mx-auto mt-4 w-10/12'>
 			{/* Breadcrumbs */}
@@ -99,15 +96,9 @@ const ProfileUser = () => {
 					</div>
 					{/* end thanh công cụ */}
 					<div className='mb-5 mt-5 '>
-						<div className='py-1 text-sm  md:text-base'>
-							Tên tài khoản: <span className=''> Nguyễn Trung Khiêm</span>
-						</div>
-						<div className='py-1 text-sm md:text-base'>
-							Email: <span className=''> trungkhiem1412@gmail.com</span>
-						</div>
-						<div className='py-1  text-sm md:text-base'>
-							Tham gia: <span className=''> 17/7/2023</span>
-						</div>
+						<div className='py-1 text-sm  md:text-base'>Tên tài khoản: {data?.full_name}</div>
+						<div className='py-1 text-sm md:text-base'>Email: {data?.email}</div>
+						<div className='py-1  text-sm md:text-base'>Tham gia: {data?.created_at?.slice(0, 10)}</div>
 					</div>
 				</div>
 			</div>

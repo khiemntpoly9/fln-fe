@@ -1,8 +1,8 @@
 import newRequest from '@/utils/newRequest';
 
-export const testProduct = async () => {
+export const profile = async () => {
 	try {
-		const respose = await newRequest.get('products');
+		const respose = await newRequest.get('user/profile');
 		return respose.data;
 	} catch (error) {
 		console.error('Error fetching:', error);

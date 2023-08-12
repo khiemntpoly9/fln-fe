@@ -1,9 +1,67 @@
 /* eslint-disable @next/next/no-img-element */
+'use client';
 import Link from 'next/link';
-
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { login } from '../services/auth.service';
 import { FaFacebook, FaGoogle } from 'react-icons/fa';
+import useAuth from '../hooks/useAuth';
 
 export default function Login() {
+	const router = useRouter();
+	const { setAuth } = useAuth();
+	const [email, setEmail] = useState<string>('');
+	const [password, setPassword] = useState<string>('');
+
+	//Validate
+	interface ErrorsType {
+		eremail?: string;
+		erpassword?: string;
+	}
+	const [errors, setErrors] = useState<ErrorsType>({});
+
+	const validateForm = () => {
+		const formErrors: { eremail: string; erpassword: string } = {
+			eremail: '',
+			erpassword: '',
+		};
+		let isValid = true;
+
+		// Validate username
+		if (!email) {
+			formErrors.eremail = 'Vui lòng nhập email vào';
+			isValid = false;
+		} else if (!/\S+@\S+\.\S+/.test(email)) {
+			formErrors.eremail = 'Email phải đúng định dạng có `@` và có `.com`';
+			isValid = false;
+		}
+
+		// Validate password
+		if (!password) {
+			formErrors.erpassword = 'Vui lòng nhập mật khẩu vào';
+			isValid = false;
+		} else if (password.length < 8) {
+			formErrors.erpassword = 'Mật khẩu có ít nhất 8 ký tự';
+			isValid = false;
+		}
+
+		setErrors(formErrors);
+
+		return isValid;
+	};
+	// end validate
+
+	/* Gọi đăng nhập */
+	const handleSubmit = async (event: any) => {
+		event.preventDefault();
+		if (validateForm()) {
+			const logLogin = await login(email, password);
+			setAuth({ user: 'user' });
+			if (logLogin.status === 200) {
+				router.push('/');
+			}
+		}
+	};
 	return (
 		<div className='container mx-auto w-10/12 bg-white'>
 			<div className='flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8'>
@@ -20,7 +78,7 @@ export default function Login() {
 				</div>
 
 				<div className='mt-10 sm:mx-auto sm:w-full sm:max-w-sm'>
-					<form className='space-y-6' action='#' method='POST'>
+					<form className='space-y-6' action='#' method='POST' onSubmit={handleSubmit}>
 						<div>
 							<label htmlFor='email' className='block text-sm font-medium leading-6 text-gray-900'>
 								Nhập email
@@ -29,14 +87,13 @@ export default function Login() {
 								<input
 									id='email'
 									name='email'
-									type='email'
-									autoComplete='email'
-									required
-									className='block w-full rounded-md border-0 py-1.5 text-gray-200 ring-1 ring-inset ring-orange-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6'
+									value={email}
+									onChange={(e) => setEmail(e.target.value)}
+									className='block w-full rounded-md border-0 bg-orange-200 p-2 text-black ring-1 ring-inset ring-orange-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6'
 								/>
+								{errors.eremail && <span className='text-red-500'>{errors.eremail}</span>}
 							</div>
 						</div>
-
 						<div>
 							<div className='flex items-center justify-between'>
 								<label htmlFor='password' className='block text-sm font-medium leading-6 text-gray-900'>
@@ -53,10 +110,11 @@ export default function Login() {
 									id='password'
 									name='password'
 									type='password'
-									autoComplete='current-password'
-									required
-									className='block w-full rounded-md border-0 py-1.5 text-gray-200 ring-1 ring-inset ring-orange-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6'
+									value={password}
+									onChange={(e) => setPassword(e.target.value)}
+									className='block w-full rounded-md border-0 bg-orange-200 p-2 text-black ring-1 ring-inset ring-orange-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6'
 								/>
+								{errors.erpassword && <span className='text-red-500'>{errors.erpassword}</span>}
 							</div>
 						</div>
 
