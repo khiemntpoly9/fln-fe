@@ -2,11 +2,13 @@
 'use client';
 import Link from 'next/link';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { login } from '../services/auth.service';
 import { FaFacebook, FaGoogle } from 'react-icons/fa';
 import useAuth from '../hooks/useAuth';
 
 export default function Login() {
+	const router = useRouter();
 	const { setAuth } = useAuth();
 	const [email, setEmail] = useState<string>('');
 	const [password, setPassword] = useState<string>('');
@@ -25,7 +27,7 @@ export default function Login() {
 		};
 		let isValid = true;
 
-		//Validate username
+		// Validate username
 		if (!email) {
 			formErrors.eremail = 'Vui lòng nhập email vào';
 			isValid = false;
@@ -34,7 +36,7 @@ export default function Login() {
 			isValid = false;
 		}
 
-		//Validate password
+		// Validate password
 		if (!password) {
 			formErrors.erpassword = 'Vui lòng nhập mật khẩu vào';
 			isValid = false;
@@ -49,15 +51,17 @@ export default function Login() {
 	};
 	// end validate
 
-	//goi dang nhap
+	/* Gọi đăng nhập */
 	const handleSubmit = async (event: any) => {
 		event.preventDefault();
 		if (validateForm()) {
 			const logLogin = await login(email, password);
-			// console.log(logLogin);
+			setAuth({ user: 'user' });
+			if (logLogin.status === 200) {
+				router.push('/');
+			}
 		}
 	};
-
 	return (
 		<div className='container mx-auto w-10/12 bg-white'>
 			<div className='flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8'>

@@ -2,19 +2,22 @@
 'use client';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
+import AuthContext from '../context/AuthProvider';
 
 // Here you would fetch and return the user
-const useUser = () => ({ user: 1, loading: true });
+// const useUser = () => ({ user: 1, loading: true });
 
 const ProfileUser = () => {
-	const { user, loading } = useUser();
+	// const { user, loading } = useUser();
 	const router = useRouter();
-	useEffect(() => {
-		if (!(user || loading)) {
-			router.push('/login');
-		}
-	}, [user, loading, router]);
+	const auth = useContext(AuthContext);
+	console.log(auth);
+	// useEffect(() => {
+	// 	if (!(user || loading)) {
+	// 		router.push('/login');
+	// 	}
+	// }, [user, loading, router]);
 	return (
 		<div className='container mx-auto mt-4 w-10/12'>
 			{/* Breadcrumbs */}
