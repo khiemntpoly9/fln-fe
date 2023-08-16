@@ -8,6 +8,7 @@ import { useState, useEffect } from 'react';
 export default function Header() {
 	const [isMenuOpenBtn, setIsMenuOpenBtn] = useState(false);
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
+	const [isUserOpen, setIsUserOpen] = useState(false);
 
 	// set status menu
 	const statusMenu = (status: boolean) => {
@@ -17,6 +18,15 @@ export default function Header() {
 		} else {
 			setIsMenuOpenBtn(false);
 			setIsMenuOpen(false);
+		}
+	};
+
+	// set status user
+	const statusUser = () => {
+		if (!isUserOpen) {
+			setIsUserOpen(true);
+		} else {
+			setIsUserOpen(false);
 		}
 	};
 
@@ -33,7 +43,7 @@ export default function Header() {
 		return () => window.removeEventListener('resize', handleResize);
 	}, []);
 	return (
-		<header className='bg-header-a shadow-md'>
+		<header className='relative bg-header-a shadow-md'>
 			<div className='navbar mx-auto flex w-10/12 justify-between'>
 				<div className='flex-start'>
 					{/* Menu new */}
@@ -71,7 +81,7 @@ export default function Header() {
 						</label>
 						<ul
 							tabIndex={0}
-							className='menu dropdown-content rounded-box menu-md z-[99] mt-3 w-52 bg-base-100 p-2 shadow'
+							className='menu dropdown-content rounded-box menu-md z-[99] mt-2 w-auto bg-base-100 p-2 shadow'
 						>
 							<li>
 								{/* tìm kiếm */}
@@ -203,38 +213,34 @@ export default function Header() {
 							</button>
 						</div>
 						{/* user */}
-						<div className='dropdown dropdown-end'>
-							<label tabIndex={0}>
-								<div>
-									<svg
-										xmlns='http://www.w3.org/2000/svg'
-										viewBox='0 0 24 24'
-										fill='#fff'
-										className='h-7 w-7'
-										stroke='#fff'
-									>
-										<path
-											fillRule='evenodd'
-											d='M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z'
-											clipRule='evenodd'
-										/>
-									</svg>
-								</div>
-							</label>
-							<ul
-								tabIndex={0}
-								className='menu dropdown-content rounded-box menu-md z-[99] mt-6 w-52 bg-base-100 p-2 shadow'
+						<div>
+							<svg
+								xmlns='http://www.w3.org/2000/svg'
+								viewBox='0 0 24 24'
+								fill='#fff'
+								className='h-7 w-7'
+								stroke='#fff'
+								onClick={() => statusUser()}
 							>
-								<li>
-									<a className='justify-between'>Trang cá nhân</a>
-								</li>
-								<li>
-									<a>Đăng xuất</a>
-								</li>
-							</ul>
+								<path
+									fillRule='evenodd'
+									d='M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z'
+									clipRule='evenodd'
+								/>
+							</svg>
 						</div>
 					</div>
 				</div>
+			</div>
+			{/* Menu */}
+			<div className='absolute -bottom-6 z-50'>test</div>
+			{/* User */}
+			<div
+				className={`border-md absolute -bottom-6 z-50 ${
+					isUserOpen ? 'block' : 'hidden'
+				} w-full bg-slate-300 md:right-0 md:rounded-md lg:right-0 lg:w-1/4`}
+			>
+				test
 			</div>
 		</header>
 	);
