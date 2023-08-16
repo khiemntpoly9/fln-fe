@@ -36,7 +36,7 @@ export default function Header() {
 		<header className='bg-header-a shadow-md'>
 			<div className='navbar mx-auto flex w-10/12 justify-between'>
 				<div className='flex-start'>
-					{/* button */}
+					{/* Menu new */}
 					<div className='dropdown lg:hidden'>
 						<label tabIndex={0} className='btn btn-circle btn-ghost'>
 							{!isMenuOpenBtn ? (
@@ -69,6 +69,66 @@ export default function Header() {
 								</svg>
 							)}
 						</label>
+						<ul
+							tabIndex={0}
+							className='menu dropdown-content rounded-box menu-md z-[99] mt-3 w-52 bg-base-100 p-2 shadow'
+						>
+							<li>
+								{/* tìm kiếm */}
+								<div className='search_box flex flex-row gap-2'>
+									<div className='w-full'>
+										<input
+											className='h-full w-full rounded-md border border-gray-300 p-2 outline-none focus:border-blue-500'
+											placeholder='Nhập tên cần tìm ...'
+											type='text'
+										/>
+									</div>
+									<div className=''>
+										<button className='btn bg-green-400 text-white'>
+											<svg
+												xmlns='http://www.w3.org/2000/svg'
+												fill='none'
+												viewBox='0 0 24 24'
+												strokeWidth={1.5}
+												stroke='white'
+												className='h-6 w-6'
+											>
+												<path
+													strokeLinecap='round'
+													strokeLinejoin='round'
+													d='M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z'
+												/>
+											</svg>
+										</button>
+									</div>
+								</div>
+							</li>
+							<li>
+								<details open>
+									<summary>Thể loại</summary>
+									<ul>
+										<li>
+											<a>Action</a>
+										</li>
+										<li>
+											<a>Action</a>
+										</li>
+									</ul>
+								</details>
+							</li>
+							<li>
+								<a>Danh sách truyện</a>
+							</li>
+							<li>
+								<a>Cộng đồng</a>
+							</li>
+							<li>
+								<a>Hướng dẫn</a>
+							</li>
+							<li>
+								<a>FAQ</a>
+							</li>
+						</ul>
 					</div>
 					{/* Logo */}
 					<div className='flex'>
@@ -106,21 +166,23 @@ export default function Header() {
 						</div>
 					</div>
 				</div>
-				{/* navbar end */}
+				{/* Navbar End */}
 				<div className='w-auto'>
 					<div className='flex gap-4'>
 						{/* heart */}
-						<a href='#'>
-							<svg
-								xmlns='http://www.w3.org/2000/svg'
-								viewBox='0 0 24 24'
-								fill='#fff'
-								className='h-6 w-6'
-								stroke='#fff'
-							>
-								<path d='M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z' />
-							</svg>
-						</a>
+						<div className='flex content-center'>
+							<a href='#'>
+								<svg
+									xmlns='http://www.w3.org/2000/svg'
+									viewBox='0 0 24 24'
+									fill='#fff'
+									className='h-7 w-7'
+									stroke='#fff'
+								>
+									<path d='M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z' />
+								</svg>
+							</a>
+						</div>
 						{/* bell */}
 						<div className='indicator'>
 							<span className='badge indicator-item badge-secondary bg-red-600 text-white'>3</span>
@@ -129,7 +191,7 @@ export default function Header() {
 									xmlns='http://www.w3.org/2000/svg'
 									viewBox='0 0 24 24'
 									fill='#fff'
-									className='h-6 w-6'
+									className='h-7 w-7'
 									stroke='#fff'
 								>
 									<path
@@ -141,88 +203,37 @@ export default function Header() {
 							</button>
 						</div>
 						{/* user */}
-						<Link href='/profile'>
-							<svg
-								xmlns='http://www.w3.org/2000/svg'
-								viewBox='0 0 24 24'
-								fill='#fff'
-								className='h-6 w-6'
-								stroke='#fff'
-							>
-								<path
-									fillRule='evenodd'
-									d='M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z'
-									clipRule='evenodd'
-								/>
-							</svg>
-						</Link>
-					</div>
-				</div>
-			</div>
-			{/* menu mobile */}
-			<div
-				tabIndex={0}
-				className={`w-100 animate__animated animate__fadeIn animate__fast bg-slate-200 ${
-					isMenuOpen ? 'block' : 'hidden'
-				} lg:hidden`}
-			>
-				<div className='px-6 py-2'>
-					{/* tìm kiếm */}
-					<div className='search_box flex flex-row gap-2'>
-						<div className='w-full'>
-							<input
-								className='h-full w-full rounded-md border border-gray-300 p-2 outline-none focus:border-blue-500'
-								placeholder='Nhập tên cần tìm ...'
-								type='text'
-							/>
-						</div>
-						<div className=''>
-							<button className='btn bg-green-400 text-white'>
-								<svg
-									xmlns='http://www.w3.org/2000/svg'
-									fill='none'
-									viewBox='0 0 24 24'
-									strokeWidth={1.5}
-									stroke='white'
-									className='h-6 w-6'
-								>
-									<path
-										strokeLinecap='round'
-										strokeLinejoin='round'
-										d='M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z'
-									/>
-								</svg>
-							</button>
-						</div>
-					</div>
-					<ul className='mt-2'>
-						<div className='collapse collapse-arrow mb-1 rounded-md bg-slate-500 text-white'>
-							<input type='checkbox' />
-							<div className='collapse-title'>Thể loại</div>
-							<div className='collapse-content'>
-								<div className='grid grid-cols-4 text-center'>
-									<a href='#'>Action</a>
-									<a href='#'>Action</a>
-									<a href='#'>Action</a>
-									<a href='#'>Action</a>
-									<a href='#'>Action</a>
-									<a href='#'>Action</a>
+						<div className='dropdown dropdown-end'>
+							<label tabIndex={0}>
+								<div>
+									<svg
+										xmlns='http://www.w3.org/2000/svg'
+										viewBox='0 0 24 24'
+										fill='#fff'
+										className='h-7 w-7'
+										stroke='#fff'
+									>
+										<path
+											fillRule='evenodd'
+											d='M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z'
+											clipRule='evenodd'
+										/>
+									</svg>
 								</div>
-							</div>
+							</label>
+							<ul
+								tabIndex={0}
+								className='menu dropdown-content rounded-box menu-md z-[99] mt-6 w-52 bg-base-100 p-2 shadow'
+							>
+								<li>
+									<a className='justify-between'>Trang cá nhân</a>
+								</li>
+								<li>
+									<a>Đăng xuất</a>
+								</li>
+							</ul>
 						</div>
-						<a className='text-white' href='#'>
-							<li className='mb-1 rounded-md bg-slate-500 p-4'>Danh sách truyện</li>
-						</a>
-						<a className='text-white' href='#'>
-							<li className='mb-1 rounded-md bg-slate-500 p-4'>Cộng đồng</li>
-						</a>
-						<a className='text-white' href='#'>
-							<li className='mb-1 rounded-md bg-slate-500 p-4'>Hướng dẫn</li>
-						</a>
-						<a className='text-white' href='#'>
-							<li className='mb-1 rounded-md bg-slate-500 p-4'>FAQ</li>
-						</a>
-					</ul>
+					</div>
 				</div>
 			</div>
 		</header>
