@@ -4,19 +4,45 @@ import Image from 'next/image';
 import Logo from './logo.svg';
 import 'animate.css';
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { logout } from '../services/auth.service';
 
 export default function Header() {
+	const router = useRouter();
 	const [isMenuOpenBtn, setIsMenuOpenBtn] = useState(false);
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
+	const [isUserOpen, setIsUserOpen] = useState(false);
 
 	// set status menu
-	const statusMenu = (status: boolean) => {
-		if (status) {
+	const statusMenu = () => {
+		// fix user
+		setIsUserOpen(false);
+		if (!isMenuOpenBtn) {
 			setIsMenuOpenBtn(true);
 			setIsMenuOpen(true);
 		} else {
 			setIsMenuOpenBtn(false);
 			setIsMenuOpen(false);
+		}
+	};
+
+	// set status user
+	const statusUser = () => {
+		// fix menu
+		setIsMenuOpenBtn(false);
+		setIsMenuOpen(false);
+		if (!isUserOpen) {
+			setIsUserOpen(true);
+		} else {
+			setIsUserOpen(false);
+		}
+	};
+
+	// Logout
+	const logoutS = async () => {
+		const statusLogout = await logout();
+		if (statusLogout.status === 200) {
+			router.push('/');
 		}
 	};
 
@@ -36,9 +62,9 @@ export default function Header() {
 		<header className='bg-header-a shadow-md'>
 			<div className='navbar mx-auto flex w-10/12 justify-between'>
 				<div className='flex-start'>
-					{/* button */}
+					{/* Menu new */}
 					<div className='dropdown lg:hidden'>
-						<label tabIndex={0} className='btn btn-circle btn-ghost'>
+						<button className='btn btn-circle btn-ghost'>
 							{!isMenuOpenBtn ? (
 								<svg
 									xmlns='http://www.w3.org/2000/svg'
@@ -47,7 +73,7 @@ export default function Header() {
 									strokeWidth={1.5}
 									stroke='#fff'
 									className='h-6 w-6'
-									onClick={() => statusMenu(true)}
+									onClick={() => statusMenu()}
 								>
 									<path
 										strokeLinecap='round'
@@ -63,12 +89,12 @@ export default function Header() {
 									strokeWidth={1.5}
 									stroke='#fff'
 									className='h-6 w-6'
-									onClick={() => statusMenu(false)}
+									onClick={() => statusMenu()}
 								>
 									<path strokeLinecap='round' strokeLinejoin='round' d='M6 18L18 6M6 6l12 12' />
 								</svg>
 							)}
-						</label>
+						</button>
 					</div>
 					{/* Logo */}
 					<div className='flex'>
@@ -106,21 +132,23 @@ export default function Header() {
 						</div>
 					</div>
 				</div>
-				{/* navbar end */}
+				{/* Navbar End */}
 				<div className='w-auto'>
 					<div className='flex gap-4'>
 						{/* heart */}
-						<a href='#'>
-							<svg
-								xmlns='http://www.w3.org/2000/svg'
-								viewBox='0 0 24 24'
-								fill='#fff'
-								className='h-6 w-6'
-								stroke='#fff'
-							>
-								<path d='M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z' />
-							</svg>
-						</a>
+						<div className='flex content-center'>
+							<a href='#'>
+								<svg
+									xmlns='http://www.w3.org/2000/svg'
+									viewBox='0 0 24 24'
+									fill='#fff'
+									className='h-7 w-7'
+									stroke='#fff'
+								>
+									<path d='M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z' />
+								</svg>
+							</a>
+						</div>
 						{/* bell */}
 						<div className='indicator'>
 							<span className='badge indicator-item badge-secondary bg-red-600 text-white'>3</span>
@@ -129,7 +157,7 @@ export default function Header() {
 									xmlns='http://www.w3.org/2000/svg'
 									viewBox='0 0 24 24'
 									fill='#fff'
-									className='h-6 w-6'
+									className='h-7 w-7'
 									stroke='#fff'
 								>
 									<path
@@ -141,13 +169,14 @@ export default function Header() {
 							</button>
 						</div>
 						{/* user */}
-						<Link href='/profile'>
+						<div>
 							<svg
 								xmlns='http://www.w3.org/2000/svg'
 								viewBox='0 0 24 24'
 								fill='#fff'
-								className='h-6 w-6'
+								className='h-7 w-7'
 								stroke='#fff'
+								onClick={() => statusUser()}
 							>
 								<path
 									fillRule='evenodd'
@@ -155,73 +184,89 @@ export default function Header() {
 									clipRule='evenodd'
 								/>
 							</svg>
-						</Link>
+						</div>
 					</div>
 				</div>
 			</div>
-			{/* menu mobile */}
-			<div
-				tabIndex={0}
-				className={`w-100 animate__animated animate__fadeIn animate__fast bg-slate-200 ${
-					isMenuOpen ? 'block' : 'hidden'
-				} lg:hidden`}
-			>
-				<div className='px-6 py-2'>
-					{/* tìm kiếm */}
-					<div className='search_box flex flex-row gap-2'>
-						<div className='w-full'>
-							<input
-								className='h-full w-full rounded-md border border-gray-300 p-2 outline-none focus:border-blue-500'
-								placeholder='Nhập tên cần tìm ...'
-								type='text'
-							/>
-						</div>
-						<div className=''>
-							<button className='btn bg-green-400 text-white'>
-								<svg
-									xmlns='http://www.w3.org/2000/svg'
-									fill='none'
-									viewBox='0 0 24 24'
-									strokeWidth={1.5}
-									stroke='white'
-									className='h-6 w-6'
-								>
-									<path
-										strokeLinecap='round'
-										strokeLinejoin='round'
-										d='M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z'
+			{/* Hidden */}
+			<div className='relative flex w-full justify-between md:mx-auto md:w-10/12 lg:mx-auto lg:w-10/12'>
+				{/* Menu */}
+				<div className={`absolute ${isMenuOpen ? 'block' : 'hidden'} left-0 z-50 w-full md:w-1/2`}>
+					<ul className='menu z-[99] w-auto bg-base-100 p-2 shadow md:rounded-md'>
+						<li>
+							{/* tìm kiếm */}
+							<div className='search_box flex flex-row gap-2'>
+								<div className='w-full'>
+									<input
+										className='h-full w-full rounded-md border border-gray-300 p-2 outline-none focus:border-blue-500'
+										placeholder='Nhập tên cần tìm ...'
+										type='text'
 									/>
-								</svg>
-							</button>
-						</div>
-					</div>
-					<ul className='mt-2'>
-						<div className='collapse collapse-arrow mb-1 rounded-md bg-slate-500 text-white'>
-							<input type='checkbox' />
-							<div className='collapse-title'>Thể loại</div>
-							<div className='collapse-content'>
-								<div className='grid grid-cols-4 text-center'>
-									<a href='#'>Action</a>
-									<a href='#'>Action</a>
-									<a href='#'>Action</a>
-									<a href='#'>Action</a>
-									<a href='#'>Action</a>
-									<a href='#'>Action</a>
+								</div>
+								<div className=''>
+									<button className='btn bg-green-400 text-white'>
+										<svg
+											xmlns='http://www.w3.org/2000/svg'
+											fill='none'
+											viewBox='0 0 24 24'
+											strokeWidth={1.5}
+											stroke='white'
+											className='h-6 w-6'
+										>
+											<path
+												strokeLinecap='round'
+												strokeLinejoin='round'
+												d='M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z'
+											/>
+										</svg>
+									</button>
 								</div>
 							</div>
-						</div>
-						<a className='text-white' href='#'>
-							<li className='mb-1 rounded-md bg-slate-500 p-4'>Danh sách truyện</li>
-						</a>
-						<a className='text-white' href='#'>
-							<li className='mb-1 rounded-md bg-slate-500 p-4'>Cộng đồng</li>
-						</a>
-						<a className='text-white' href='#'>
-							<li className='mb-1 rounded-md bg-slate-500 p-4'>Hướng dẫn</li>
-						</a>
-						<a className='text-white' href='#'>
-							<li className='mb-1 rounded-md bg-slate-500 p-4'>FAQ</li>
-						</a>
+						</li>
+						<li>
+							<details open>
+								<summary>Thể loại</summary>
+								<ul>
+									<li>
+										<a>Action</a>
+									</li>
+									<li>
+										<a>Action</a>
+									</li>
+								</ul>
+							</details>
+						</li>
+						<li>
+							<a>Danh sách truyện</a>
+						</li>
+						<li>
+							<a>Cộng đồng</a>
+						</li>
+						<li>
+							<a>Hướng dẫn</a>
+						</li>
+						<li>
+							<a>FAQ</a>
+						</li>
+					</ul>
+				</div>
+				{/* User */}
+				<div
+					className={`border-md absolute z-50 ${
+						isUserOpen ? 'block' : 'hidden'
+					} w-full md:right-0 md:w-1/4 md:rounded-md lg:right-0 lg:w-1/4`}
+				>
+					<ul className='menu z-[99] w-auto bg-base-100 p-2 shadow md:rounded-md'>
+						<li onClick={() => statusUser()}>
+							<Link href='/profile'>Trang cá nhân</Link>
+						</li>
+						<li
+							onClick={() => {
+								statusUser(), logoutS();
+							}}
+						>
+							<a href='#'>Đăng xuất</a>
+						</li>
 					</ul>
 				</div>
 			</div>

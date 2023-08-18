@@ -1,19 +1,15 @@
-
-import newRequest from "../utils/newRequest";
-
+import newRequest from '../utils/newRequest';
 
 // Register user
-
-export const register= async (full_name:string,email:string,password:string) => {
-    try {
-        const respose = await newRequest.post('auth/register',{full_name,email,password});
-        return respose.data;
-    } catch (error) {
-        console.log('Error fetching:', error);
-        throw error;
-    }
-    
-}
+export const register = async (full_name: string, email: string, password: string) => {
+	try {
+		const respose = await newRequest.post('auth/register', { full_name, email, password });
+		return respose.data;
+	} catch (error) {
+		console.log('Error fetching:', error);
+		throw error;
+	}
+};
 
 // Login user
 export const login = async (email: string, password: string) => {
@@ -31,3 +27,13 @@ export const login = async (email: string, password: string) => {
 	}
 };
 
+// Logout user
+export const logout = async () => {
+	try {
+		const response = await newRequest.post('auth/logout');
+		return response.data;
+	} catch (error) {
+		console.error('Error fetching:', error);
+		throw error;
+	}
+};

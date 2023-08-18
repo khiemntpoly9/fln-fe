@@ -5,11 +5,9 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { login } from '../services/auth.service';
 import { FaFacebook, FaGoogle } from 'react-icons/fa';
-import useAuth from '../hooks/useAuth';
 
 export default function Login() {
 	const router = useRouter();
-	const { setAuth } = useAuth();
 	const [email, setEmail] = useState<string>('');
 	const [password, setPassword] = useState<string>('');
 
@@ -56,7 +54,6 @@ export default function Login() {
 		event.preventDefault();
 		if (validateForm()) {
 			const logLogin = await login(email, password);
-			setAuth({ user: 'user' });
 			if (logLogin.status === 200) {
 				router.push('/');
 			}
