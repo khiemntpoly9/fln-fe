@@ -11,8 +11,10 @@ export default function Header() {
 	const [isUserOpen, setIsUserOpen] = useState(false);
 
 	// set status menu
-	const statusMenu = (status: boolean) => {
-		if (status) {
+	const statusMenu = () => {
+		// fix user
+		setIsUserOpen(false);
+		if (!isMenuOpenBtn) {
 			setIsMenuOpenBtn(true);
 			setIsMenuOpen(true);
 		} else {
@@ -23,6 +25,9 @@ export default function Header() {
 
 	// set status user
 	const statusUser = () => {
+		// fix menu
+		setIsMenuOpenBtn(false);
+		setIsMenuOpen(false);
 		if (!isUserOpen) {
 			setIsUserOpen(true);
 		} else {
@@ -43,12 +48,12 @@ export default function Header() {
 		return () => window.removeEventListener('resize', handleResize);
 	}, []);
 	return (
-		<header className='relative bg-header-a shadow-md'>
+		<header className='bg-header-a shadow-md'>
 			<div className='navbar mx-auto flex w-10/12 justify-between'>
 				<div className='flex-start'>
 					{/* Menu new */}
 					<div className='dropdown lg:hidden'>
-						<label tabIndex={0} className='btn btn-circle btn-ghost'>
+						<button className='btn btn-circle btn-ghost'>
 							{!isMenuOpenBtn ? (
 								<svg
 									xmlns='http://www.w3.org/2000/svg'
@@ -57,7 +62,7 @@ export default function Header() {
 									strokeWidth={1.5}
 									stroke='#fff'
 									className='h-6 w-6'
-									onClick={() => statusMenu(true)}
+									onClick={() => statusMenu()}
 								>
 									<path
 										strokeLinecap='round'
@@ -73,72 +78,12 @@ export default function Header() {
 									strokeWidth={1.5}
 									stroke='#fff'
 									className='h-6 w-6'
-									onClick={() => statusMenu(false)}
+									onClick={() => statusMenu()}
 								>
 									<path strokeLinecap='round' strokeLinejoin='round' d='M6 18L18 6M6 6l12 12' />
 								</svg>
 							)}
-						</label>
-						<ul
-							tabIndex={0}
-							className='menu dropdown-content rounded-box menu-md z-[99] mt-2 w-auto bg-base-100 p-2 shadow'
-						>
-							<li>
-								{/* tìm kiếm */}
-								<div className='search_box flex flex-row gap-2'>
-									<div className='w-full'>
-										<input
-											className='h-full w-full rounded-md border border-gray-300 p-2 outline-none focus:border-blue-500'
-											placeholder='Nhập tên cần tìm ...'
-											type='text'
-										/>
-									</div>
-									<div className=''>
-										<button className='btn bg-green-400 text-white'>
-											<svg
-												xmlns='http://www.w3.org/2000/svg'
-												fill='none'
-												viewBox='0 0 24 24'
-												strokeWidth={1.5}
-												stroke='white'
-												className='h-6 w-6'
-											>
-												<path
-													strokeLinecap='round'
-													strokeLinejoin='round'
-													d='M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z'
-												/>
-											</svg>
-										</button>
-									</div>
-								</div>
-							</li>
-							<li>
-								<details open>
-									<summary>Thể loại</summary>
-									<ul>
-										<li>
-											<a>Action</a>
-										</li>
-										<li>
-											<a>Action</a>
-										</li>
-									</ul>
-								</details>
-							</li>
-							<li>
-								<a>Danh sách truyện</a>
-							</li>
-							<li>
-								<a>Cộng đồng</a>
-							</li>
-							<li>
-								<a>Hướng dẫn</a>
-							</li>
-							<li>
-								<a>FAQ</a>
-							</li>
-						</ul>
+						</button>
 					</div>
 					{/* Logo */}
 					<div className='flex'>
@@ -232,15 +177,83 @@ export default function Header() {
 					</div>
 				</div>
 			</div>
-			{/* Menu */}
-			<div className='absolute -bottom-6 z-50'>test</div>
-			{/* User */}
-			<div
-				className={`border-md absolute -bottom-6 z-50 ${
-					isUserOpen ? 'block' : 'hidden'
-				} w-full bg-slate-300 md:right-0 md:rounded-md lg:right-0 lg:w-1/4`}
-			>
-				test
+			{/* Hidden */}
+			<div className='relative flex w-full justify-between md:mx-auto md:w-10/12 lg:mx-auto lg:w-10/12'>
+				{/* Menu */}
+				<div className={`absolute ${isMenuOpen ? 'block' : 'hidden'} left-0 z-50 w-full md:w-1/2`}>
+					<ul className='menu z-[99] w-auto bg-base-100 p-2 shadow md:rounded-md'>
+						<li>
+							{/* tìm kiếm */}
+							<div className='search_box flex flex-row gap-2'>
+								<div className='w-full'>
+									<input
+										className='h-full w-full rounded-md border border-gray-300 p-2 outline-none focus:border-blue-500'
+										placeholder='Nhập tên cần tìm ...'
+										type='text'
+									/>
+								</div>
+								<div className=''>
+									<button className='btn bg-green-400 text-white'>
+										<svg
+											xmlns='http://www.w3.org/2000/svg'
+											fill='none'
+											viewBox='0 0 24 24'
+											strokeWidth={1.5}
+											stroke='white'
+											className='h-6 w-6'
+										>
+											<path
+												strokeLinecap='round'
+												strokeLinejoin='round'
+												d='M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z'
+											/>
+										</svg>
+									</button>
+								</div>
+							</div>
+						</li>
+						<li>
+							<details open>
+								<summary>Thể loại</summary>
+								<ul>
+									<li>
+										<a>Action</a>
+									</li>
+									<li>
+										<a>Action</a>
+									</li>
+								</ul>
+							</details>
+						</li>
+						<li>
+							<a>Danh sách truyện</a>
+						</li>
+						<li>
+							<a>Cộng đồng</a>
+						</li>
+						<li>
+							<a>Hướng dẫn</a>
+						</li>
+						<li>
+							<a>FAQ</a>
+						</li>
+					</ul>
+				</div>
+				{/* User */}
+				<div
+					className={`border-md absolute z-50 ${
+						isUserOpen ? 'block' : 'hidden'
+					} w-full md:right-0 md:w-1/4 md:rounded-md lg:right-0 lg:w-1/4`}
+				>
+					<ul className='menu z-[99] w-auto bg-base-100 p-2 shadow md:rounded-md'>
+						<li onClick={() => statusUser()}>
+							<Link href='/profile'>Trang cá nhân</Link>
+						</li>
+						<li onClick={() => statusUser()}>
+							<a href='#'>Đăng xuất</a>
+						</li>
+					</ul>
+				</div>
 			</div>
 		</header>
 	);
