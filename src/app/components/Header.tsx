@@ -4,8 +4,11 @@ import Image from 'next/image';
 import Logo from './logo.svg';
 import 'animate.css';
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { logout } from '../services/auth.service';
 
 export default function Header() {
+	const router = useRouter();
 	const [isMenuOpenBtn, setIsMenuOpenBtn] = useState(false);
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const [isUserOpen, setIsUserOpen] = useState(false);
@@ -32,6 +35,14 @@ export default function Header() {
 			setIsUserOpen(true);
 		} else {
 			setIsUserOpen(false);
+		}
+	};
+
+	// Logout
+	const logoutS = async () => {
+		const statusLogout = await logout();
+		if (statusLogout.status === 200) {
+			router.push('/');
 		}
 	};
 
@@ -249,7 +260,11 @@ export default function Header() {
 						<li onClick={() => statusUser()}>
 							<Link href='/profile'>Trang cá nhân</Link>
 						</li>
-						<li onClick={() => statusUser()}>
+						<li
+							onClick={() => {
+								statusUser(), logoutS();
+							}}
+						>
 							<a href='#'>Đăng xuất</a>
 						</li>
 					</ul>
