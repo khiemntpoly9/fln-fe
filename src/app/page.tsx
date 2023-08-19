@@ -11,7 +11,7 @@ import TruyenVuaDang from '@/client/components/TruyenVuaDang';
 import TheoDoiNhieu from '@/client/components/TheoDoiNhieu';
 import TruyenDaHoanThanh from '@/client/components/TruyenDaHoanThanh';
 
-import '../app/components/css/swiper.css';
+import '@/client/components/css/swiper.css';
 
 export default function Home() {
 	return (
