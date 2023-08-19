@@ -11,14 +11,15 @@ const ProfileUser = () => {
 	const { data, isLoading, error } = useQuery({
 		queryKey: ['profile'],
 		queryFn: profile,
+		retry: 1,
 	});
-	// Nếu chưa load xong thì hiển thị loading
-	if (!data && isLoading) {
-		return <div>Loading...</div>;
-	}
 	// Unauthorized
 	if (error) {
 		return router.push('/login');
+	}
+	// Nếu chưa load xong thì hiển thị loading
+	if (!data && isLoading) {
+		return <div>Loading...</div>;
 	}
 	return (
 		<div className='container mx-auto mt-4 w-10/12'>

@@ -60,7 +60,7 @@ export default function Login() {
 			if (logLogin.status === 200) {
 				// Set status user
 				user.setIsLogin(true);
-				router.push('/');
+				return router.push('/');
 			}
 		}
 	};
