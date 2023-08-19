@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import Image from 'next/image';
-import Logo from './logo.svg';
+import Logo from '@/images/logo.svg';
 export default function Footer() {
 	return (
 		<footer className='footer bg-header-a p-10 text-white'>

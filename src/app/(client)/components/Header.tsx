@@ -1,11 +1,11 @@
 'use client';
 import Link from 'next/link';
 import Image from 'next/image';
-import Logo from './logo.svg';
+import Logo from '@/images/logo.svg';
 import 'animate.css';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { logout } from '../services/auth.service';
+import { logout } from '@/services/auth.service';
 
 export default function Header() {
 	const router = useRouter();

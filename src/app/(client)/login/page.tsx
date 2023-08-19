@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { login } from '../services/auth.service';
+import { login } from '@/services/auth.service';
 import { FaFacebook, FaGoogle } from 'react-icons/fa';
 
 export default function Login() {
