@@ -4,24 +4,21 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import { profile } from '@/services/user.service';
-import { useContext } from 'react';
-import { Context } from '@/contexts/context';
 
 const ProfileUser = () => {
 	// Status login
-	const { user } = useContext(Context);
 	const router = useRouter();
 	const { data, isLoading, error } = useQuery({
 		queryKey: ['profile'],
 		queryFn: profile,
 	});
-	// Nếu chưa đăng nhập thì chuyển về trang login
-	if (user.isLogin === false) {
-		router.push('/login');
-	}
 	// Nếu chưa load xong thì hiển thị loading
 	if (!data && isLoading) {
 		return <div>Loading...</div>;
+	}
+	// Unauthorized
+	if (error) {
+		return router.push('/login');
 	}
 	return (
 		<div className='container mx-auto mt-4 w-10/12'>
@@ -107,9 +104,9 @@ const ProfileUser = () => {
 					</div>
 					{/* end thanh công cụ */}
 					<div className='mb-5 mt-5 '>
-						<div className='py-1 text-sm  md:text-base'>Tên tài khoản: {data?.full_name}</div>
-						<div className='py-1 text-sm md:text-base'>Email: {data?.email}</div>
-						<div className='py-1  text-sm md:text-base'>Tham gia: {data?.created_at?.slice(0, 10)}</div>
+						<div className='py-1 text-sm  md:text-base'>Tên tài khoản: {data?.data.full_name}</div>
+						<div className='py-1 text-sm md:text-base'>Email: {data?.data.email}</div>
+						<div className='py-1  text-sm md:text-base'>Tham gia: {data?.data.created_at?.slice(0, 10)}</div>
 					</div>
 				</div>
 			</div>
