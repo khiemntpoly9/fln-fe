@@ -4,11 +4,11 @@ import { useState, useEffect } from 'react';
 import { Context } from '@/contexts/context';
 import { checkLogin } from '@/services/auth.service';
 import './globals.css';
-import type { Metadata } from 'next';
-export const metadata: Metadata = {
-	title: 'Trang chủ',
-	description: 'FLN',
-};
+// import type { Metadata } from 'next';
+// export const metadata: Metadata = {
+// 	title: 'Trang chủ',
+// 	description: 'FLN',
+// };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
 	// Status login
