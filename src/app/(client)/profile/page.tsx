@@ -11,14 +11,14 @@ const ProfileUser = () => {
 	// Status login
 	const { user } = useContext(Context);
 	const router = useRouter();
-	const { data, isLoading, error } = useQuery({
+	const { data, isLoading } = useQuery({
 		queryKey: ['profile'],
 		queryFn: profile,
 	});
 	// Nếu chưa đăng nhập thì chuyển về trang login
-	if (user.isLogin === false) {
-		router.push('/login');
-	}
+	// if (user.isLogin === false) {
+	// 	router.push('/login');
+	// }
 	// Nếu chưa load xong thì hiển thị loading
 	if (!data && isLoading) {
 		return <div>Loading...</div>;
