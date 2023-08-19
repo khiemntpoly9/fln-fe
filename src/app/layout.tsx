@@ -1,3 +1,4 @@
+'use client';
 import Providers from '@/providers';
 import { useState, useEffect } from 'react';
 import { Context } from '@/contexts/context';
