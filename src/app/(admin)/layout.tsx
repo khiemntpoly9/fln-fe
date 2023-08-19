@@ -10,6 +10,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 	const { data, isLoading } = useQuery({
 		queryKey: ['checkLogin'],
 		queryFn: checkLogin,
+		retry: false,
 	});
 	if (!data && isLoading) {
 		return <Loading />;
