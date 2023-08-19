@@ -3,16 +3,17 @@ import Link from 'next/link';
 import Image from 'next/image';
 import Logo from '@/images/logo.svg';
 import 'animate.css';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useRouter } from 'next/navigation';
 import { logout } from '@/services/auth.service';
+import { Context } from '@/contexts/context';
 
 export default function Header() {
 	const router = useRouter();
 	const [isMenuOpenBtn, setIsMenuOpenBtn] = useState(false);
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const [isUserOpen, setIsUserOpen] = useState(false);
-
+	const { user } = useContext(Context);
 	// set status menu
 	const statusMenu = () => {
 		// fix user
@@ -42,6 +43,8 @@ export default function Header() {
 	const logoutS = async () => {
 		const statusLogout = await logout();
 		if (statusLogout.status === 200) {
+			// set status user
+			user.setIsLogin(false);
 			router.push('/');
 		}
 	};
@@ -256,18 +259,29 @@ export default function Header() {
 						isUserOpen ? 'block' : 'hidden'
 					} w-full md:right-0 md:w-1/4 md:rounded-md lg:right-0 lg:w-1/4`}
 				>
-					<ul className='menu z-[99] w-auto bg-base-100 p-2 shadow md:rounded-md'>
-						<li onClick={() => statusUser()}>
-							<Link href='/profile'>Trang cá nhân</Link>
-						</li>
-						<li
-							onClick={() => {
-								statusUser(), logoutS();
-							}}
-						>
-							<a href='#'>Đăng xuất</a>
-						</li>
-					</ul>
+					{user.isLogin ? (
+						<ul className='menu z-[99] w-auto bg-base-100 p-2 shadow md:rounded-md'>
+							<li onClick={() => statusUser()}>
+								<Link href='/profile'>Trang cá nhân</Link>
+							</li>
+							<li
+								onClick={() => {
+									statusUser(), logoutS();
+								}}
+							>
+								<a href='#'>Đăng xuất</a>
+							</li>
+						</ul>
+					) : (
+						<ul className='menu z-[99] w-auto bg-base-100 p-2 shadow md:rounded-md'>
+							<li onClick={() => statusUser()}>
+								<Link href='/login'>Đăng nhập</Link>
+							</li>
+							<li onClick={() => statusUser()}>
+								<Link href='/register'>Đăng ký</Link>
+							</li>
+						</ul>
+					)}
 				</div>
 			</div>
 		</header>

@@ -1,12 +1,14 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useRouter } from 'next/navigation';
 import { login } from '@/services/auth.service';
+import { Context } from '@/contexts/context';
 import { FaFacebook, FaGoogle } from 'react-icons/fa';
 
 export default function Login() {
+	const { user } = useContext(Context);
 	const router = useRouter();
 	const [email, setEmail] = useState<string>('');
 	const [password, setPassword] = useState<string>('');
@@ -55,6 +57,8 @@ export default function Login() {
 		if (validateForm()) {
 			const logLogin = await login(email, password);
 			if (logLogin.status === 200) {
+				// Set status user
+				user.setIsLogin(true);
 				router.push('/');
 			}
 		}
