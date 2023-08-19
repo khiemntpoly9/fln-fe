@@ -1,10 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
-
 import Link from 'next/link';
 import { useState } from 'react';
 import { FaFacebook, FaGoogle } from 'react-icons/fa';
-import { register } from '../services/auth.service';
+import { register } from '@/services/auth.service';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -108,7 +107,7 @@ export default function Register() {
 
 	return (
 		<div className='container mx-auto w-10/12 bg-white'>
-			<div className='flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8'>
+			<div className='flex min-h-full flex-1 flex-col justify-center lg:px-8'>
 				<div className='sm:mx-auto sm:w-full sm:max-w-sm'>
 					{/* logo */}
 					{/* <img
@@ -116,9 +115,7 @@ export default function Register() {
 						src='https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600'
 						alt='Your Company'
 					/> */}
-					<h2 className='mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900'>
-						Đăng ký
-					</h2>
+					<h2 className='text-center text-2xl font-bold leading-9 tracking-tight text-gray-900'>Đăng ký</h2>
 				</div>
 
 				<div className='mt-10 sm:mx-auto sm:w-full sm:max-w-sm'>
@@ -135,7 +132,7 @@ export default function Register() {
 									autoComplete='fullname'
 									value={fullname}
 									onChange={(e) => handleFullnameChange(e.target.value)}
-									className='block w-full rounded-md border-0 px-5 py-1.5 text-gray-200 ring-1 ring-inset ring-orange-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6'
+									className='block w-full rounded-md border-0 px-5 py-2 ring-1 ring-inset ring-orange-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6'
 								/>
 							</div>
 							<div>
@@ -159,7 +156,7 @@ export default function Register() {
 									autoComplete='email'
 									value={email}
 									onChange={(e) => setEmail(e.target.value)}
-									className={`block w-full rounded-md border-0 px-5 py-1.5 text-gray-200 ring-1 ring-inset ring-orange-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6 ${
+									className={`block w-full rounded-md border-0 px-5 py-2 ring-1 ring-inset ring-orange-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6 ${
 										(isSubmitted && email.trim() !== '' && !emailIsValid(email)) ||
 										(isSubmitted && email.trim() === '' && emailFormatError)
 											? 'ring-red-600'
@@ -192,7 +189,7 @@ export default function Register() {
 									autoComplete='current-password'
 									value={password}
 									onChange={(e) => handlePasswordChange(e.target.value)}
-									className='block w-full rounded-md border-0  px-5  py-1.5 text-gray-200 ring-1 ring-inset ring-orange-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6'
+									className='block w-full rounded-md border-0 px-5 py-2 ring-1 ring-inset ring-orange-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6'
 								/>
 							</div>
 							<div>
@@ -217,7 +214,7 @@ export default function Register() {
 									autoComplete='current-password'
 									value={checkPassword}
 									onChange={(e) => handleCheckPasswordChange(e.target.value)}
-									className='block w-full rounded-md border-0 px-5  py-1.5  text-gray-200 ring-1 ring-inset ring-orange-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6'
+									className='block w-full rounded-md border-0 px-5 py-2 ring-1 ring-inset ring-orange-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6'
 									onBlur={() => {
 										if (checkPassword.trim() === '' && password.trim() !== '') {
 											setPasswordMatchError(true);
@@ -254,9 +251,9 @@ export default function Register() {
 					<ToastContainer />
 					<p className='mt-10 text-center text-sm text-gray-500'>
 						Bạn đã có tài khoản?{' '}
-						<a href='#' className='font-semibold leading-6 text-indigo-600 hover:text-indigo-500'>
+						<Link href='/login' className='font-semibold leading-6 text-indigo-600 hover:text-indigo-500'>
 							Đăng nhập ngay
-						</a>
+						</Link>
 					</p>
 					<hr />
 					<p className='mt-3 text-center text-sm text-gray-500'>Hoặc đăng ký bằng</p>

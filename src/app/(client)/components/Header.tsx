@@ -1,11 +1,11 @@
 'use client';
 import Link from 'next/link';
 import Image from 'next/image';
-import Logo from './logo.svg';
+import Logo from '@/images/logo.svg';
 import 'animate.css';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { logout } from '../services/auth.service';
+import { logout } from '@/services/auth.service';
 
 export default function Header() {
 	const router = useRouter();
@@ -59,7 +59,7 @@ export default function Header() {
 		return () => window.removeEventListener('resize', handleResize);
 	}, []);
 	return (
-		<header className='bg-header-a shadow-md'>
+		<header className='mb-4 bg-header-a shadow-md'>
 			<div className='navbar mx-auto flex w-10/12 justify-between'>
 				<div className='flex-start'>
 					{/* Menu new */}

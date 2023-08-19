@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { login } from '../services/auth.service';
+import { login } from '@/services/auth.service';
 import { FaFacebook, FaGoogle } from 'react-icons/fa';
 
 export default function Login() {
@@ -61,7 +61,7 @@ export default function Login() {
 	};
 	return (
 		<div className='container mx-auto w-10/12 bg-white'>
-			<div className='flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8'>
+			<div className='flex min-h-full flex-1 flex-col justify-center lg:px-8'>
 				<div className='sm:mx-auto sm:w-full sm:max-w-sm'>
 					{/* logo */}
 					{/* <img
@@ -69,11 +69,8 @@ export default function Login() {
 						src='https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600'
 						alt='Your Company'
 					/> */}
-					<h2 className='mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900'>
-						Đăng nhập
-					</h2>
+					<h2 className='text-center text-2xl font-bold leading-9 tracking-tight text-gray-900'>Đăng nhập</h2>
 				</div>
-
 				<div className='mt-10 sm:mx-auto sm:w-full sm:max-w-sm'>
 					<form className='space-y-6' action='#' method='POST' onSubmit={handleSubmit}>
 						<div>
@@ -86,7 +83,7 @@ export default function Login() {
 									name='email'
 									value={email}
 									onChange={(e) => setEmail(e.target.value)}
-									className='block w-full rounded-md border-0 bg-orange-200 p-2 text-black ring-1 ring-inset ring-orange-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6'
+									className='block w-full rounded-md border-0 px-5 py-2 text-black ring-1 ring-inset ring-orange-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6'
 								/>
 								{errors.eremail && <span className='text-red-500'>{errors.eremail}</span>}
 							</div>
@@ -109,7 +106,7 @@ export default function Login() {
 									type='password'
 									value={password}
 									onChange={(e) => setPassword(e.target.value)}
-									className='block w-full rounded-md border-0 bg-orange-200 p-2 text-black ring-1 ring-inset ring-orange-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6'
+									className='block w-full rounded-md border-0 px-5 py-2 text-black ring-1 ring-inset ring-orange-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6'
 								/>
 								{errors.erpassword && <span className='text-red-500'>{errors.erpassword}</span>}
 							</div>
@@ -127,9 +124,9 @@ export default function Login() {
 
 					<p className='mt-10 text-center text-sm text-gray-500'>
 						Bạn chưa đăng ký?{' '}
-						<a href='#' className='font-semibold leading-6 text-indigo-600 hover:text-indigo-500'>
+						<Link href='/register' className='font-semibold leading-6 text-indigo-600 hover:text-indigo-500'>
 							Đăng ký ngay tại đây
-						</a>
+						</Link>
 					</p>
 					<hr />
 					<p className='mt-3 text-center text-sm text-gray-500'>Hoặc đăng nhập bằng</p>
