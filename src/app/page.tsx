@@ -40,12 +40,12 @@ export default function Home() {
 							<TheoDoiNhieu />
 						</div>
 					</div>
-					<div className='flex flex-col justify-center gap-2  lg:flex-row'>
+					<div className='flex flex-col justify-center gap-2 lg:flex-row'>
 						<div className='order-2 mx-auto w-10/12  lg:order-1 lg:m-0 lg:w-6/12'>
 							{/* component swiper truyện đã hoàn thành để ở đây */}
 							<TruyenDaHoanThanh />
 						</div>
-						<div className='order-1 mx-auto w-10/12  lg:order-2  lg:m-0 lg:w-4/12'>
+						<div className='order-1 mx-auto w-10/12 lg:order-2 lg:m-0 lg:w-4/12'>
 							<TruyenVuaDang />
 						</div>
 					</div>

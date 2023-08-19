@@ -3,7 +3,7 @@ import Image from 'next/image';
 import Logo from '@/images/logo.svg';
 export default function Footer() {
 	return (
-		<footer className='footer bg-header-a p-10 text-white'>
+		<footer className='footer mt-4 bg-header-a p-10 text-white'>
 			<div className='container mx-auto grid w-10/12 lg:grid-cols-2'>
 				<div className='grid gap-2'>
 					<Image src={Logo} alt='Logo' width={40} />

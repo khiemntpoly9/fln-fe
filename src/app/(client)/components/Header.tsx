@@ -59,7 +59,7 @@ export default function Header() {
 		return () => window.removeEventListener('resize', handleResize);
 	}, []);
 	return (
-		<header className='bg-header-a shadow-md'>
+		<header className='mb-4 bg-header-a shadow-md'>
 			<div className='navbar mx-auto flex w-10/12 justify-between'>
 				<div className='flex-start'>
 					{/* Menu new */}
