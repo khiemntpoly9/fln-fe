@@ -9,15 +9,15 @@ import { Context } from '@/contexts/context';
 
 const ProfileUser = () => {
 	// Status login
-	const { user } = useContext(Context);
 	const router = useRouter();
+	const { user } = useContext(Context);
 	const { data, isLoading } = useQuery({
 		queryKey: ['profile'],
 		queryFn: profile,
 	});
 	// Nếu chưa đăng nhập thì chuyển về trang login
 	if (user.isLogin === false) {
-		return router.push('/login');
+		return router.push('login');
 	}
 	// Nếu chưa load xong thì hiển thị loading
 	if (!data && isLoading) {
