@@ -45,7 +45,7 @@ export default function Header() {
 		if (statusLogout.status === 200) {
 			// set status user
 			user.setIsLogin(false);
-			router.push('/');
+			return router.push('/');
 		}
 	};
 
