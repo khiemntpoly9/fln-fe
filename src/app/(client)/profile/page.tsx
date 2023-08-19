@@ -4,15 +4,19 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import { profile } from '@/services/user.service';
+import { useContext } from 'react';
+import { Context } from '@/contexts/context';
 
 const ProfileUser = () => {
+	// Status login
+	const { user } = useContext(Context);
 	const router = useRouter();
 	const { data, isLoading, error } = useQuery({
 		queryKey: ['profile'],
 		queryFn: profile,
 	});
 	// Nếu chưa đăng nhập thì chuyển về trang login
-	if (error) {
+	if (user.isLogin === false) {
 		router.push('/login');
 	}
 	// Nếu chưa load xong thì hiển thị loading

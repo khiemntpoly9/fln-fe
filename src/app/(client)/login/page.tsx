@@ -1,12 +1,15 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useRouter } from 'next/navigation';
 import { login } from '@/services/auth.service';
+import { Context } from '@/contexts/context';
+import Loading from '@/components/Loading';
 import { FaFacebook, FaGoogle } from 'react-icons/fa';
 
 export default function Login() {
+	const { user } = useContext(Context);
 	const router = useRouter();
 	const [email, setEmail] = useState<string>('');
 	const [password, setPassword] = useState<string>('');
@@ -55,20 +58,25 @@ export default function Login() {
 		if (validateForm()) {
 			const logLogin = await login(email, password);
 			if (logLogin.status === 200) {
+				// Set status user
+				user.setIsLogin(true);
 				router.push('/');
 			}
 		}
 	};
+	// Check login
+	if (user.isLogin) return router.push('/');
+	// Render
 	return (
 		<div className='container mx-auto w-10/12 bg-white'>
 			<div className='flex min-h-full flex-1 flex-col justify-center lg:px-8'>
 				<div className='sm:mx-auto sm:w-full sm:max-w-sm'>
 					{/* logo */}
 					{/* <img
-						className='mx-auto h-10 w-auto'
-						src='https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600'
-						alt='Your Company'
-					/> */}
+							className='mx-auto h-10 w-auto'
+							src='https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600'
+							alt='Your Company'
+						/> */}
 					<h2 className='text-center text-2xl font-bold leading-9 tracking-tight text-gray-900'>Đăng nhập</h2>
 				</div>
 				<div className='mt-10 sm:mx-auto sm:w-full sm:max-w-sm'>
