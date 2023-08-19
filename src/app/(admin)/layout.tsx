@@ -1,15 +1,20 @@
 'use client';
-import { useContext } from 'react';
 import { useRouter } from 'next/navigation';
-import { Context } from '@/contexts/context';
+import { useQuery } from '@tanstack/react-query';
 import Sidebar from '@/admin/components/Sidebar';
+import { checkLogin } from '@/services/auth.service';
+import Loading from '@/components/Loading';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
 	const router = useRouter();
-	const { user } = useContext(Context);
-	if (!user.isLogin || user.role !== 'admin') {
-		return router.push('/');
+	const { data, isLoading, error } = useQuery({
+		queryKey: ['checkLogin'],
+		queryFn: checkLogin,
+	});
+	if (!data && isLoading) {
+		return <Loading />;
 	}
+	if (data?.data.role !== 'admin') return router.push('/login');
 	return (
 		<div className='flex'>
 			<div className='flex flex-col lg:flex-row'>

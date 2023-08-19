@@ -3,8 +3,8 @@ import newRequest from '../utils/newRequest';
 // Register user
 export const register = async (full_name: string, email: string, password: string) => {
 	try {
-		const respose = await newRequest.post('auth/register', { full_name, email, password });
-		return respose.data;
+		const response = await newRequest.post('auth/register', { full_name, email, password });
+		return response.data;
 	} catch (error) {
 		console.log('Error fetching:', error);
 		throw error;
@@ -35,6 +35,17 @@ export const logout = async () => {
 			data: response.data,
 			status: response.status,
 		};
+	} catch (error) {
+		console.error('Error fetching:', error);
+		throw error;
+	}
+};
+
+// Check login
+export const checkLogin = async () => {
+	try {
+		const response = await newRequest.get('auth/check');
+		return { data: response.data, status: response.status };
 	} catch (error) {
 		console.error('Error fetching:', error);
 		throw error;
