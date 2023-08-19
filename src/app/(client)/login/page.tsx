@@ -64,6 +64,8 @@ export default function Login() {
 			}
 		}
 	};
+	// Check login
+	if (user.isLogin) return router.push('/');
 	// Render
 	return (
 		<div className='container mx-auto w-10/12 bg-white'>

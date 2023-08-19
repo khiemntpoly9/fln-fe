@@ -7,7 +7,7 @@ import Loading from '@/components/Loading';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
 	const router = useRouter();
-	const { data, isLoading, error } = useQuery({
+	const { data, isLoading } = useQuery({
 		queryKey: ['checkLogin'],
 		queryFn: checkLogin,
 	});
