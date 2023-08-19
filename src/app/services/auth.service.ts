@@ -6,7 +6,7 @@ export const register = async (full_name: string, email: string, password: strin
 		const response = await newRequest.post('auth/register', { full_name, email, password });
 		return response.data;
 	} catch (error) {
-		console.log('Error fetching:', error);
+		// console.log('Error fetching:', error);
 		throw error;
 	}
 };
@@ -22,7 +22,7 @@ export const login = async (email: string, password: string) => {
 			status: response.status,
 		};
 	} catch (error) {
-		console.error('Error fetching:', error);
+		// console.error('Error fetching:', error);
 		throw error;
 	}
 };
@@ -36,7 +36,7 @@ export const logout = async () => {
 			status: response.status,
 		};
 	} catch (error) {
-		console.error('Error fetching:', error);
+		// console.error('Error fetching:', error);
 		throw error;
 	}
 };
@@ -47,7 +47,7 @@ export const checkLogin = async () => {
 		const response = await newRequest.get('auth/check');
 		return { data: response.data, status: response.status };
 	} catch (error) {
-		console.error('Error fetching:', error);
+		// console.error('Error fetching:', error);
 		throw error;
 	}
 };
