@@ -125,7 +125,7 @@ const Sidebar = () => {
 						</li>
 						<li>
 							<a
-								className=' block rounded px-4 py-4 transition duration-200  hover:bg-blue-700 hover:text-white'
+								className=' block rounded px-5 py-4 transition duration-200  hover:bg-blue-700 hover:text-white'
 								href='#'
 							>
 								Tài khoản
@@ -133,7 +133,7 @@ const Sidebar = () => {
 						</li>
 						<li>
 							<a
-								className='block rounded px-4 py-4 transition duration-200  hover:bg-blue-700 hover:text-white'
+								className='block rounded px-5 py-4 transition duration-200  hover:bg-blue-700 hover:text-white'
 								href='#'
 							>
 								Nhóm dịch
@@ -141,7 +141,7 @@ const Sidebar = () => {
 						</li>
 						<li>
 							<a
-								className='block rounded px-4 py-4 transition duration-200  hover:bg-blue-700 hover:text-white'
+								className='block rounded px-5 py-4 transition duration-200  hover:bg-blue-700 hover:text-white'
 								href='#'
 							>
 								Truyện
@@ -149,7 +149,7 @@ const Sidebar = () => {
 						</li>
 						<li>
 							<a
-								className='block rounded px-4 py-4 transition duration-200  hover:bg-blue-700 hover:text-white'
+								className='block rounded px-5 py-4 transition duration-200  hover:bg-blue-700 hover:text-white'
 								href='#'
 							>
 								Thiết lập
