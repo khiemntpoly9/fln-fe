@@ -264,6 +264,12 @@ export default function Header() {
 							<li onClick={() => statusUser()}>
 								<Link href='/profile'>Trang cá nhân</Link>
 							</li>
+							<li onClick={() => statusUser()}>
+								<Link href='/profile'>Hệ thống</Link>
+							</li>
+							<li onClick={() => statusUser()}>
+								<Link href='/team'>Nhóm dịch</Link>
+							</li>
 							<li
 								onClick={() => {
 									statusUser(), logoutS();
