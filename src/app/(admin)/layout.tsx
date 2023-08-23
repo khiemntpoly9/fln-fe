@@ -17,10 +17,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 	}
 	if (data?.data.role !== 'admin') return router.push('/login');
 	return (
-		<div className='flex'>
-			<div className='flex flex-col lg:flex-row'>
-				<Sidebar />
-			</div>
+		<div className='min-h-screen md:flex'>
+			<Sidebar />
 			<div className='flex flex-grow flex-col'>{children}</div>
 		</div>
 	);

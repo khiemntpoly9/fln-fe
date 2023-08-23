@@ -6,165 +6,159 @@ import 'animate.css';
 import { useState, useEffect } from 'react';
 
 const Sidebar = () => {
-	const [isMenuOpenBtn, setIsMenuOpenBtn] = useState(false);
-	const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-	// set status menu
-	const statusMenu = (status: boolean) => {
-		if (status) {
-			setIsMenuOpenBtn(true);
-			setIsMenuOpen(true);
-		} else {
-			setIsMenuOpenBtn(false);
-			setIsMenuOpen(false);
-		}
+	const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+	const toggleSidebar = () => {
+		setIsSidebarOpen(!isSidebarOpen);
 	};
 
-	// set default status menu
-	useEffect(() => {
-		const handleResize = () => {
-			const width = window.innerWidth;
-			if (width >= 1024) {
-				setIsMenuOpenBtn(false);
-				setIsMenuOpen(false);
-			}
-		};
-		window.addEventListener('resize', handleResize);
-		return () => window.removeEventListener('resize', handleResize);
-	}, []);
 	return (
-		<header className='w-12/12 bg-blue-200 '>
-			<div className='flex '>
-				<div className='flex-start'>
-					{/* button */}
-					<div className='dropdown lg:hidden'>
-						<label tabIndex={0} className='btn btn-circle btn-ghost'>
-							{!isMenuOpenBtn ? (
-								<svg
-									xmlns='http://www.w3.org/2000/svg'
-									fill='none'
-									viewBox='0 0 24 24'
-									strokeWidth={1.5}
-									stroke='#fff'
-									className='h-6 w-6'
-									onClick={() => statusMenu(true)}
-								>
-									<path
-										strokeLinecap='round'
-										strokeLinejoin='round'
-										d='M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5'
-									/>
-								</svg>
-							) : (
-								<svg
-									xmlns='http://www.w3.org/2000/svg'
-									fill='none'
-									viewBox='0 0 24 24'
-									strokeWidth={1.5}
-									stroke='#fff'
-									className='h-6 w-6'
-									onClick={() => statusMenu(false)}
-								>
-									<path strokeLinecap='round' strokeLinejoin='round' d='M6 18L18 6M6 6l12 12' />
-								</svg>
-							)}
-						</label>
-					</div>
-					{/* Logo */}
-					<div className='hidden h-screen w-64 bg-blue-200 lg:block'>
-						<div className='p-6'>
-							<h1 className='text-2xl font-semibold text-white'>Admin Panel</h1>
-						</div>
-						<nav className='mt-1'>
-							<ul className='space-y-2'>
-								<li className='pl-1'>
-									<div className='collapse-arrow collapse mb-1 rounded-md bg-blue-200 text-white hover:bg-blue-300'>
-										<input type='checkbox' />
-										<div className='collapse-title'>
-											<a className='block px-4 py-2 text-white ' href='#'>
-												Thống kê
-											</a>
-										</div>
-										<div className='collapse-content'>
-											<div className='grid grid-cols-1 text-center '>
-												<a href='#' className='py-2 hover:bg-blue-200'>
-													Action
-												</a>
-												<a href='#' className='py-2 hover:bg-blue-200'>
-													Action
-												</a>
-												<a href='#' className='py-2 hover:bg-blue-200'>
-													Action
-												</a>
-											</div>
-										</div>
-									</div>
+		<div className='relative md:flex'>
+			{/* mobile menubar */}
+			<div className='bg-blue-800 text-blue-100 md:hidden'>
+				{/* nav */}
+				<button
+					className='mobile-menu-button p-4 focus:bg-blue-700 focus:outline-none'
+					onClick={toggleSidebar}
+				>
+					<svg
+						xmlns='http://www.w3.org/2000/svg'
+						fill='none'
+						viewBox='0 0 24 24'
+						strokeWidth={1.5}
+						stroke='currentColor'
+						className='h-8 w-8'
+					>
+						<path
+							strokeLinecap='round'
+							strokeLinejoin='round'
+							d='M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5'
+						/>
+					</svg>
+				</button>
+			</div>
+			{/* menu sidebar */}
+			<div className=''>
+				{isSidebarOpen && (
+					<div className='relative h-64 w-full  md:hidden '>
+						{/* Menu Items */}
+						<div className='absolute left-0 z-50 w-full'>
+							<ul className=' menu w-full  rounded-md  bg-base-100 shadow '>
+								<li>
+									<details open>
+										<summary>Thống kê</summary>
+										<ul>
+											<li>
+												<a>Action</a>
+											</li>
+											<li>
+												<a>Action</a>
+											</li>
+										</ul>
+									</details>
 								</li>
 								<li>
-									<a className='block px-4 py-2 text-white hover:bg-blue-300' href='#'>
-										Tài khoản
-									</a>
+									<a href='#'>Tài khoản</a>
 								</li>
 								<li>
-									<a className='block px-4 py-2 text-white hover:bg-blue-300' href='#'>
-										Nhóm dịch
-									</a>
+									<a href='#'>Nhóm dịch</a>
 								</li>
 								<li>
-									<a className='block px-4 py-2 text-white hover:bg-blue-300' href='#'>
-										Truyện
-									</a>
+									<a href='#'>Truyện</a>
 								</li>
 								<li>
-									<a className='block px-4 py-2 text-white hover:bg-blue-300' href='#'>
-										Thiết lập
-									</a>
+									<a href='#'>Thiết lập</a>
 								</li>
 							</ul>
-						</nav>
+						</div>
 					</div>
-				</div>
+				)}
 			</div>
 
-			{/* menu mobile */}
-			<div
-				tabIndex={0}
-				className={`w-100 animate__animated animate__fadeIn animate__fast bg-slate-200 ${
-					isMenuOpen ? 'block' : 'hidden'
-				} lg:hidden`}
-			>
-				<div className='px-6 py-2'>
-					<ul className='mt-2'>
-						<div className='collapse-arrow collapse mb-1 rounded-md bg-slate-500 text-white'>
-							<input type='checkbox' />
-							<div className='collapse-title'>Thông kê</div>
-							<div className='collapse-content'>
-								<div className='grid grid-cols-4 text-center'>
-									<a href='#'>Action</a>
-									<a href='#'>Action</a>
-									<a href='#'>Action</a>
-									<a href='#'>Action</a>
-									<a href='#'>Action</a>
-									<a href='#'>Action</a>
+			{/* sidebar */}
+			<div className=' trasition absolute inset-y-0 left-0 w-64 -translate-x-full transform space-y-6 bg-blue-800 px-2 py-7 text-blue-100 duration-200 md:relative md:translate-x-0'>
+				{/* logo */}
+				<a href='#' className='flex items-center space-x-2 px-4 text-white'>
+					<svg
+						xmlns='http://www.w3.org/2000/svg'
+						fill='none'
+						viewBox='0 0 24 24'
+						strokeWidth={1.5}
+						stroke='currentColor'
+						className='h-6 w-6'
+					>
+						<path
+							strokeLinecap='round'
+							strokeLinejoin='round'
+							d='M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9'
+						/>
+					</svg>
+					<span className='text-2xl'>Admin</span>
+				</a>
+				{/* nav */}
+				<nav>
+					<ul className='space-y-2'>
+						<li className='pl-1'>
+							<div className='collapse collapse-arrow mb-1 rounded-md bg-blue-800 text-white hover:bg-blue-700'>
+								<input type='checkbox' />
+								<div className='collapse-title'>
+									<a
+										className='block rounded  transition duration-200  hover:bg-blue-700 hover:text-white'
+										href='#'
+									>
+										Thống kê
+									</a>
+								</div>
+								<div className='collapse-content'>
+									<div className='grid grid-cols-1 text-center '>
+										<a href='#' className='py-2 hover:bg-blue-600'>
+											Action
+										</a>
+										<a href='#' className='py-2 hover:bg-blue-600'>
+											Action
+										</a>
+										<a href='#' className='py-2 hover:bg-blue-600'>
+											Action
+										</a>
+									</div>
 								</div>
 							</div>
-						</div>
-						<a className='text-white' href='#'>
-							<li className='mb-1 rounded-md bg-slate-500 p-4'>Tài khoản</li>
-						</a>
-						<a className='text-white' href='#'>
-							<li className='mb-1 rounded-md bg-slate-500 p-4'>Nhóm dịch</li>
-						</a>
-						<a className='text-white' href='#'>
-							<li className='mb-1 rounded-md bg-slate-500 p-4'>Truyện</li>
-						</a>
-						<a className='text-white' href='#'>
-							<li className='mb-1 rounded-md bg-slate-500 p-4'>Thiết lập</li>
-						</a>
+						</li>
+						<li>
+							<a
+								className=' block rounded px-5 py-4 transition duration-200  hover:bg-blue-700 hover:text-white'
+								href='#'
+							>
+								Tài khoản
+							</a>
+						</li>
+						<li>
+							<a
+								className='block rounded px-5 py-4 transition duration-200  hover:bg-blue-700 hover:text-white'
+								href='#'
+							>
+								Nhóm dịch
+							</a>
+						</li>
+						<li>
+							<a
+								className='block rounded px-5 py-4 transition duration-200  hover:bg-blue-700 hover:text-white'
+								href='#'
+							>
+								Truyện
+							</a>
+						</li>
+						<li>
+							<a
+								className='block rounded px-5 py-4 transition duration-200  hover:bg-blue-700 hover:text-white'
+								href='#'
+							>
+								Thiết lập
+							</a>
+						</li>
 					</ul>
-				</div>
+				</nav>
 			</div>
-		</header>
+		</div>
 	);
 };
 
