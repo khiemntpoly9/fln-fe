@@ -1,7 +1,6 @@
 'use client';
 import { createTeam } from '@/services/team.service';
 import { useMutation } from '@tanstack/react-query';
-import { data } from 'autoprefixer';
 export default function TeamCreate() {
 	// api create team
 	const { mutate } = useMutation({
@@ -15,6 +14,8 @@ export default function TeamCreate() {
 			team_name: target.nameteam.value,
 			team_detail: target.description.value,
 		};
+		// validate
+
 		// call api
 		mutate(data_form);
 	};
