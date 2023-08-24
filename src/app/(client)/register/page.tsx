@@ -100,8 +100,8 @@ export default function Register() {
 
 		//call api
 		if (validateForm()) {
-			const logRegister = await register(fullname, email, password);
-			console.log(logRegister);
+			await register(fullname, email, password);
+			// console.log(logRegister);
 		}
 	};
 
@@ -122,7 +122,7 @@ export default function Register() {
 					<form className='space-y-6' action='#' method='POST' onSubmit={handleSubmit}>
 						<div>
 							<label htmlFor='fullname' className='block text-sm font-medium leading-6 text-gray-900'>
-								Tên đăng nhập
+								Họ và tên
 							</label>
 							<div className='mt-2'>
 								<input
@@ -146,7 +146,7 @@ export default function Register() {
 						</div>
 						<div>
 							<label htmlFor='email' className='block text-sm font-medium leading-6 text-gray-900'>
-								Nhập email
+								Tài khoản Email
 							</label>
 							<div className='mt-2'>
 								<input
