@@ -1,9 +1,9 @@
 import newRequest from '../utils/newRequest';
 
 // Register user
-export const register = async (full_name: string, email: string, password: string) => {
+export const register = async (data: { full_name: string; email: string; password: string }) => {
 	try {
-		const response = await newRequest.post('auth/register', { full_name, email, password });
+		const response = await newRequest.post('auth/register', { ...data });
 		return response.data;
 	} catch (error) {
 		// console.log('Error fetching:', error);
