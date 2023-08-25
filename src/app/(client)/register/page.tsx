@@ -2,111 +2,152 @@
 'use client';
 import Link from 'next/link';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { FaFacebook, FaGoogle } from 'react-icons/fa';
-import { register } from '@/services/auth.service';
+import { checkLogin, register } from '@/services/auth.service';
 import { ToastContainer, toast } from 'react-toastify';
+import { useMutation } from '@tanstack/react-query';
 import 'react-toastify/dist/ReactToastify.css';
 
+type DataRegister = {
+	full_name: string;
+	email: string;
+	password: string;
+	repeactpass: string;
+};
+
 export default function Register() {
-	const [fullname, setFullname] = useState<string>('');
-	const [email, setEmail] = useState<string>('');
-	const [password, setPassword] = useState<string>('');
-	const [checkPassword, setCheckPassword] = useState<string>('');
-	const [passwordMatchError, setPasswordMatchError] = useState<boolean>(false);
-	const [emailFormatError, setEmailFormatError] = useState<boolean>(false);
-	const [passwordLengthError, setPasswordLengthError] = useState<boolean>(false);
-	const [fullnameRequiredError, setFullnameRequiredError] = useState<boolean>(false);
-	const [fullnameSpecialCharsError, setFullnameSpecialCharsError] = useState<boolean>(false);
-	const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
+	const [isShowError, setIsShowError] = useState<boolean>(false);
+	const [isMessageErrorName, setIsMessageErrorName] = useState<string>('');
+	const [isMessageErrorEmail, setIsMessageErrorEmail] = useState<string>('');
+	const [isMessageErrorPass, setIsMessageErrorPass] = useState<string>('');
+	const [isMessageErrorRepeactPass, setIsMessageErrorRepeactPass] = useState<string>('');
+	const [dataForm, setDataForm] = useState<DataRegister>({
+		full_name: '',
+		email: '',
+		password: '',
+		repeactpass: '',
+	});
+	const router = useRouter();
 
-	// const [isRegistered, setIsRegistered] = useState<boolean>(false);
+	// Đăng ký
+	const { mutate } = useMutation({
+		mutationFn: (data: { full_name: string; email: string; password: string }) => register(data),
+		onSuccess: () => {
+			setTimeout(() => {
+				toast.success('Đã đăng ký thành công!', {
+					position: 'top-right',
+					autoClose: 3000,
+					hideProgressBar: false,
+					closeOnClick: true,
+					pauseOnHover: true,
+					draggable: true,
+					progress: undefined,
+				});
+				router.push('/login');
+			}, 100);
+		},
+		onError: () => {
+			setTimeout(() => {
+				toast.error(`Đăng ký thất bại`, {
+					position: 'top-right',
+					autoClose: 3000,
+					hideProgressBar: false,
+					closeOnClick: true,
+					pauseOnHover: true,
+					draggable: true,
+				});
+			}, 100);
+		},
+	});
 
-	// fullname
-	const handleFullnameChange = (value: string) => {
-		setFullname(value);
-		setFullnameRequiredError(false);
-		setFullnameSpecialCharsError(false);
+	const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const { name, value } = event.target;
+		setDataForm((prevState: DataRegister) => ({
+			...prevState,
+			[name]: value,
+		}));
 	};
-	// password
-	const handlePasswordChange = (value: string) => {
-		setPassword(value);
-		if (isSubmitted) {
-			setPasswordMatchError(checkPassword !== value);
-		}
-	};
-	// checkpassword
-	const handleCheckPasswordChange = (value: string) => {
-		setCheckPassword(value);
-		if (isSubmitted) {
-			setPasswordMatchError(password !== value);
-		}
-	};
-	//dung dang email
-	const emailIsValid = (email: string): boolean => {
-		const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-		return emailPattern.test(email);
-	};
-	// validate
-	const validateForm = () => {
-		setIsSubmitted(true);
 
-		//validate so sanh mk giong nhau
-		if (password !== checkPassword) {
-			setPasswordMatchError(true);
+	// Validate Form
+	const validateForm = (data: DataRegister) => {
+		// Check fullname
+		const checkFullName = (fullname: string) => {
+			const specialCharsRegex = /[!@#$%^&*(),.?":{}|<>]/;
+			if (fullname === '') {
+				setIsMessageErrorName('Vui lòng nhập họ và tên!');
+			} else if (fullname.length < 5) {
+				setIsMessageErrorName('Vui lòng nhập họ và tên hơn 5 kí tự!');
+			} else if (specialCharsRegex.test(fullname)) {
+				setIsMessageErrorName('Họ và tên không được chứa ký tự đặc biệt!');
+			} else {
+				setIsMessageErrorName('');
+				return true;
+			}
 			return false;
-		}
-		//validate fullname rog
-		if (fullname.trim() === '') {
-			setFullnameRequiredError(true);
+		};
+		// Check email
+		const checkEmail = (email: string) => {
+			const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+			if (email === '') {
+				setIsMessageErrorEmail('Vui lòng nhập email!');
+			} else if (!emailPattern.test(email)) {
+				setIsMessageErrorEmail('Email không đúng định dạng!');
+			} else {
+				setIsMessageErrorEmail('');
+				return true;
+			}
 			return false;
-		}
-		//validate ky tu dac biet fullname
-		const specialCharsRegex = /[!@#$%^&*(),.?":{}|<>]/;
-		if (specialCharsRegex.test(fullname)) {
-			setFullnameSpecialCharsError(true);
+		};
+		// Check password
+		const checkPassword = (password: string) => {
+			if (password.trim() === '') {
+				setIsMessageErrorPass('Vui lòng nhập mật khẩu!');
+			} else if (password.length < 8) {
+				setIsMessageErrorPass('Mật khẩu phải có ít nhất 8 kí tự!');
+			} else {
+				setIsMessageErrorPass('');
+				return true;
+			}
 			return false;
-		}
-		//validate email
-		if (email.trim() === '') {
-			setEmailFormatError(false);
-		} else if (!emailIsValid(email)) {
-			setEmailFormatError(true);
+		};
+		// Check repeact password
+		const checkRepeactPass = (password: string, repeactpass: string) => {
+			if (repeactpass.trim() === '') {
+				setIsMessageErrorRepeactPass('Vui lòng nhập lại mật khẩu để xác nhận!');
+			} else if (password !== repeactpass) {
+				setIsMessageErrorRepeactPass('Mật khẩu không trùng khớp!');
+			} else {
+				setIsMessageErrorRepeactPass('');
+				return true;
+			}
 			return false;
-		} else {
-			setEmailFormatError(false);
+		};
+		// Call check
+		if (
+			checkFullName(data.full_name) &&
+			checkEmail(data.email) &&
+			checkPassword(data.password) &&
+			checkRepeactPass(data.password, data.repeactpass)
+		) {
+			return true;
 		}
-		//validate password
-		if (password === '' || password.length < 8) {
-			setPasswordLengthError(true);
-			return false;
-		}
-		//settime da dang ky thanh cong
-		setTimeout(() => {
-			toast.success('Đã đăng ký thành công!', {
-				position: 'top-right',
-				autoClose: 3000,
-				hideProgressBar: false,
-				closeOnClick: true,
-				pauseOnHover: true,
-				draggable: true,
-				progress: undefined,
-			});
-		}, 1000);
-		return true;
 	};
-	//submit
-	const handleSubmit = async (event: any) => {
+	// Submit
+	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-
-		//call api
-		if (validateForm()) {
-			await register(fullname, email, password);
-			// console.log(logRegister);
+		if (validateForm(dataForm)) {
+			setIsShowError(false);
+			// Call api
+			mutate(dataForm);
+		} else {
+			setIsShowError(true);
 		}
 	};
 
 	return (
 		<div className='container mx-auto w-10/12 bg-white'>
+			<ToastContainer />
 			<div className='flex min-h-full flex-1 flex-col justify-center lg:px-8'>
 				<div className='sm:mx-auto sm:w-full sm:max-w-sm'>
 					{/* logo */}
@@ -117,129 +158,92 @@ export default function Register() {
 					/> */}
 					<h2 className='text-center text-2xl font-bold leading-9 tracking-tight text-gray-900'>Đăng ký</h2>
 				</div>
-
 				<div className='mt-10 sm:mx-auto sm:w-full sm:max-w-sm'>
-					<form className='space-y-6' action='#' method='POST' onSubmit={handleSubmit}>
-						<div>
-							<label htmlFor='fullname' className='block text-sm font-medium leading-6 text-gray-900'>
+					<form onSubmit={handleSubmit}>
+						{/* Full name */}
+						<div className='mb-2'>
+							<label
+								htmlFor='fullname-lable'
+								className='mb-2 block text-sm font-medium leading-6 text-gray-900'
+							>
 								Họ và tên
 							</label>
-							<div className='mt-2'>
+							<div>
 								<input
 									id='fullname'
-									name='fullname'
+									name='full_name'
+									value={dataForm.full_name}
 									type='text'
-									autoComplete='fullname'
-									value={fullname}
-									onChange={(e) => handleFullnameChange(e.target.value)}
-									className='block w-full rounded-md border-0 px-5 py-2 ring-1 ring-inset ring-orange-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6'
+									className={`${
+										isMessageErrorName && isShowError ? 'mb-2 border-rose-600' : ''
+									} w-full appearance-none rounded border p-2 shadow focus:outline-none`}
+									onChange={handleInputChange}
 								/>
-							</div>
-							<div>
-								{isSubmitted && (fullname.trim() === '' || fullnameRequiredError) && (
-									<p className='text-red-500'>Vui lòng nhập tên đăng nhập.</p>
-								)}
-								{isSubmitted && fullname.trim() !== '' && fullnameSpecialCharsError && (
-									<p className='text-red-500'>Tên đăng nhập không được chứa ký tự đặc biệt.</p>
-								)}
+								{isShowError && <p className='text-sm italic text-red-500'>{isMessageErrorName}</p>}
 							</div>
 						</div>
-						<div>
-							<label htmlFor='email' className='block text-sm font-medium leading-6 text-gray-900'>
+						{/* Email */}
+						<div className='mb-2'>
+							<label htmlFor='email' className='mb-2 block text-sm font-medium leading-6 text-gray-900'>
 								Tài khoản Email
 							</label>
-							<div className='mt-2'>
+							<div>
 								<input
 									id='email'
 									name='email'
-									type='email'
-									autoComplete='email'
-									value={email}
-									onChange={(e) => setEmail(e.target.value)}
-									className={`block w-full rounded-md border-0 px-5 py-2 ring-1 ring-inset ring-orange-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6 ${
-										(isSubmitted && email.trim() !== '' && !emailIsValid(email)) ||
-										(isSubmitted && email.trim() === '' && emailFormatError)
-											? 'ring-red-600'
-											: ''
-									}`}
+									value={dataForm.email}
+									type='text'
+									className={`${
+										isMessageErrorEmail && isShowError ? 'mb-2 border-rose-600' : ''
+									} w-full appearance-none rounded border p-2 shadow focus:outline-none`}
+									onChange={handleInputChange}
 								/>
-							</div>
-							<div>
-								{isSubmitted && (email.trim() === '' || emailFormatError) && (
-									<p className='text-red-600'>
-										{email.trim() === ''
-											? 'Vui lòng nhập địa chỉ email'
-											: 'Địa chỉ email không đúng định dạng'}
-									</p>
-								)}
+								{isShowError && <p className='text-sm italic text-red-500'>{isMessageErrorEmail}</p>}
 							</div>
 						</div>
-
-						<div>
+						{/* Password */}
+						<div className='mb-2'>
 							<div className='flex items-center justify-between'>
-								<label htmlFor='password' className='block text-sm font-medium leading-6 text-gray-900'>
+								<label htmlFor='password' className='mb-2 block text-sm font-medium leading-6 text-gray-900'>
 									Mật khẩu
 								</label>
 							</div>
-							<div className='mt-2'>
+							<div>
 								<input
 									id='password'
-									name='password'
 									type='password'
-									autoComplete='current-password'
-									value={password}
-									onChange={(e) => handlePasswordChange(e.target.value)}
-									className='block w-full rounded-md border-0 px-5 py-2 ring-1 ring-inset ring-orange-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6'
+									name='password'
+									value={dataForm.password}
+									className={`${
+										isMessageErrorPass && isShowError ? 'mb-2 border-rose-600' : ''
+									} w-full appearance-none rounded border p-2 shadow focus:outline-none`}
+									onChange={handleInputChange}
 								/>
-							</div>
-							<div>
-								{isSubmitted &&
-									((password === '' && <p className='text-red-500'>Vui lòng nhập mật khẩu.</p>) ||
-										(password.length < 8 && (
-											<p className='text-red-500'>Mật khẩu phải có ít nhất 8 kí tự.</p>
-										)))}
+								{isShowError && <p className='text-sm italic text-red-500'>{isMessageErrorPass}</p>}
 							</div>
 						</div>
-						<div>
+						{/* Repeact Password */}
+						<div className='mb-2'>
 							<div className='flex items-center justify-between'>
 								<label htmlFor='password' className='block text-sm font-medium leading-6 text-gray-900'>
 									Xác nhận mật khẩu
 								</label>
 							</div>
-							<div className='mt-2'>
-								<input
-									id='check-password'
-									name='check-password'
-									type='password'
-									autoComplete='current-password'
-									value={checkPassword}
-									onChange={(e) => handleCheckPasswordChange(e.target.value)}
-									className='block w-full rounded-md border-0 px-5 py-2 ring-1 ring-inset ring-orange-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6'
-									onBlur={() => {
-										if (checkPassword.trim() === '' && password.trim() !== '') {
-											setPasswordMatchError(true);
-										}
-									}}
-								/>
-							</div>
 							<div>
-								{isSubmitted && passwordMatchError && (
-									<p className='text-red-500'>
-										{checkPassword.trim() === ''
-											? 'Vui lòng nhập lại mật khẩu để xác nhận.'
-											: 'Mật khẩu xác nhận không khớp với mật khẩu đã nhập.'}
-									</p>
-								)}
+								<input
+									id='repeactpass'
+									type='password'
+									name='repeactpass'
+									value={dataForm.repeactpass}
+									className={`${
+										isMessageErrorRepeactPass && isShowError ? 'mb-2 border-rose-600' : ''
+									} w-full appearance-none rounded border p-2 shadow focus:outline-none`}
+									onChange={handleInputChange}
+								/>
+								{isShowError && <p className='text-sm italic text-red-500'>{isMessageErrorRepeactPass}</p>}
 							</div>
 						</div>
-						<div>
-							{/* {isRegistered && (
-								<div className='rounded-md border border-green-400 bg-green-100 px-4 py-3 text-green-700'>
-									Đã đăng ký thành công!
-								</div>
-							)} */}
-						</div>
-						<div>
+						<div className='mt-4'>
 							<button
 								type='submit'
 								className='flex w-full justify-center rounded-md bg-orange-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-orange-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600'
@@ -248,7 +252,6 @@ export default function Register() {
 							</button>
 						</div>
 					</form>
-					<ToastContainer />
 					<p className='mt-10 text-center text-sm text-gray-500'>
 						Bạn đã có tài khoản?{' '}
 						<Link href='/login' className='font-semibold leading-6 text-indigo-600 hover:text-indigo-500'>
