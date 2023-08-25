@@ -6,7 +6,8 @@ import { useRouter } from 'next/navigation';
 import { login } from '@/services/auth.service';
 import { Context } from '@/contexts/context';
 import { useMutation } from '@tanstack/react-query';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Loading from '@/components/Loading';
 import { FaFacebook, FaGoogle } from 'react-icons/fa';
 
@@ -33,8 +34,31 @@ export default function Login() {
 		mutationFn: (data: { email: string; password: string }) => login(data),
 		onSuccess: () => {
 			user.setIsLogin(true);
-			console.log('Đăng nhập thành công');
-			router.push('/');
+			toast.success('Đăng nhập thành công!', {
+				position: 'top-right',
+				autoClose: 1000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: 'light',
+			});
+			setTimeout(() => {
+				router.push('/');
+			}, 1000);
+		},
+		onError: () => {
+			toast.error('Đăng nhập thất bại!', {
+				position: 'top-right',
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: 'light',
+			});
 		},
 	});
 	// Handle input change
