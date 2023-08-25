@@ -1,25 +1,26 @@
 'use client';
 
 import { create_cate } from '@/services/categories.service';
-import { useMutation } from '@tanstack/react-query';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useMutation } from 'react-query';
 
 const Categories = () => {
+	const [name, setName] = useState<string>('');
+
+	//api gọi list
+
 	// api create thêm
 	const { mutate } = useMutation({
-		mutationFn: (data: { name: string }) => create_cate(data),
+		mutationFn: (name: string) => create_cate(name),
 	});
 
 	// Submit thêm
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		const target = event.currentTarget;
-		const data: { name: string } = {
-			name: target.cat_name.value,
-		};
+
 		// call api
-		mutate(data);
+		mutate(name);
 	};
 	return (
 		<div>
@@ -92,7 +93,6 @@ const Categories = () => {
 			{/* modal thêm */}
 			<dialog id='my_modal_3' className='modal'>
 				<form method='dialog' className='modal-box ' onSubmit={handleSubmit}>
-					<div className='btn btn-circle btn-ghost btn-sm absolute right-2 top-2'>✕</div>
 					<div>
 						<h1 className='text-center'>Thêm thể loại</h1>
 						<div className='flex items-center justify-between'>
@@ -105,6 +105,8 @@ const Categories = () => {
 								id='cat_name'
 								name='cat'
 								type='text'
+								onChange={(e) => setName(e.target.value)}
+								value={name}
 								className='block w-full rounded-md border-0 px-5 py-2 text-black ring-1 ring-inset ring-orange-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6'
 							/>
 						</div>
@@ -119,13 +121,15 @@ const Categories = () => {
 						</button>
 					</div>
 				</form>
+				<form method='dialog' className='modal-backdrop'>
+					<button>close</button>
+				</form>
 			</dialog>
 			{/* end modal thêm */}
 
 			{/* modal sửa */}
 			<dialog id='my_modal_4' className='modal'>
 				<form method='dialog' className='modal-box'>
-					<div className='btn btn-circle btn-ghost btn-sm absolute right-2 top-2'>✕</div>
 					<div>
 						<h1 className='text-center'>Thêm thể loại</h1>
 						<div className='flex items-center justify-between'>
@@ -151,6 +155,9 @@ const Categories = () => {
 							Sửa
 						</button>
 					</div>
+				</form>
+				<form method='dialog' className='modal-backdrop'>
+					<button>close</button>
 				</form>
 			</dialog>
 			{/* end modal sửa */}

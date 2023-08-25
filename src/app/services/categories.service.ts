@@ -12,9 +12,9 @@ export const list_cate = async () => {
 };
 
 //tạo thể loại
-export const create_cate = async (data: { name: string }) => {
+export const create_cate = async (name: string) => {
 	try {
-		const response = await newRequest.post('categories/create', { ...data });
+		const response = await newRequest.post('categories/create', { name });
 		return { data: response.data, status: response.status };
 	} catch (error) {
 		console.error('Error fetching:', error);
