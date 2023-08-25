@@ -1,10 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useRouter } from 'next/navigation';
+import { Context } from '@/contexts/context';
 import { FaFacebook, FaGoogle } from 'react-icons/fa';
-import { checkLogin, register } from '@/services/auth.service';
+import { register } from '@/services/auth.service';
 import { ToastContainer, toast } from 'react-toastify';
 import { useMutation } from '@tanstack/react-query';
 import 'react-toastify/dist/ReactToastify.css';
@@ -16,12 +17,16 @@ type DataRegister = {
 	repeactpass: string;
 };
 
+type ErrorsType = {
+	erFullname?: string;
+	erEmail?: string;
+	erPassword?: string;
+	erRepeactPass?: string;
+};
+
 export default function Register() {
-	const [isShowError, setIsShowError] = useState<boolean>(false);
-	const [isMessageErrorName, setIsMessageErrorName] = useState<string>('');
-	const [isMessageErrorEmail, setIsMessageErrorEmail] = useState<string>('');
-	const [isMessageErrorPass, setIsMessageErrorPass] = useState<string>('');
-	const [isMessageErrorRepeactPass, setIsMessageErrorRepeactPass] = useState<string>('');
+	const { user } = useContext(Context);
+	const [errors, setErrors] = useState<ErrorsType>({});
 	const [dataForm, setDataForm] = useState<DataRegister>({
 		full_name: '',
 		email: '',
@@ -29,8 +34,7 @@ export default function Register() {
 		repeactpass: '',
 	});
 	const router = useRouter();
-
-	// Đăng ký
+	// Đăng ký tài khoản
 	const { mutate } = useMutation({
 		mutationFn: (data: { full_name: string; email: string; password: string }) => register(data),
 		onSuccess: () => {
@@ -60,7 +64,7 @@ export default function Register() {
 			}, 100);
 		},
 	});
-
+	// Handle input change
 	const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = event.target;
 		setDataForm((prevState: DataRegister) => ({
@@ -68,83 +72,68 @@ export default function Register() {
 			[name]: value,
 		}));
 	};
-
 	// Validate Form
-	const validateForm = (data: DataRegister) => {
-		// Check fullname
-		const checkFullName = (fullname: string) => {
-			const specialCharsRegex = /[!@#$%^&*(),.?":{}|<>]/;
-			if (fullname === '') {
-				setIsMessageErrorName('Vui lòng nhập họ và tên!');
-			} else if (fullname.length < 5) {
-				setIsMessageErrorName('Vui lòng nhập họ và tên hơn 5 kí tự!');
-			} else if (specialCharsRegex.test(fullname)) {
-				setIsMessageErrorName('Họ và tên không được chứa ký tự đặc biệt!');
-			} else {
-				setIsMessageErrorName('');
-				return true;
-			}
-			return false;
+	const validateForm = () => {
+		let isValid = true;
+		const formErrors: { erFullname: string; erEmail: string; erPassword: string; erRepeactPass: string } = {
+			erFullname: '',
+			erEmail: '',
+			erPassword: '',
+			erRepeactPass: '',
 		};
-		// Check email
-		const checkEmail = (email: string) => {
-			const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-			if (email === '') {
-				setIsMessageErrorEmail('Vui lòng nhập email!');
-			} else if (!emailPattern.test(email)) {
-				setIsMessageErrorEmail('Email không đúng định dạng!');
-			} else {
-				setIsMessageErrorEmail('');
-				return true;
-			}
-			return false;
-		};
-		// Check password
-		const checkPassword = (password: string) => {
-			if (password.trim() === '') {
-				setIsMessageErrorPass('Vui lòng nhập mật khẩu!');
-			} else if (password.length < 8) {
-				setIsMessageErrorPass('Mật khẩu phải có ít nhất 8 kí tự!');
-			} else {
-				setIsMessageErrorPass('');
-				return true;
-			}
-			return false;
-		};
-		// Check repeact password
-		const checkRepeactPass = (password: string, repeactpass: string) => {
-			if (repeactpass.trim() === '') {
-				setIsMessageErrorRepeactPass('Vui lòng nhập lại mật khẩu để xác nhận!');
-			} else if (password !== repeactpass) {
-				setIsMessageErrorRepeactPass('Mật khẩu không trùng khớp!');
-			} else {
-				setIsMessageErrorRepeactPass('');
-				return true;
-			}
-			return false;
-		};
-		// Call check
-		if (
-			checkFullName(data.full_name) &&
-			checkEmail(data.email) &&
-			checkPassword(data.password) &&
-			checkRepeactPass(data.password, data.repeactpass)
-		) {
-			return true;
+		const specialCharsRegex = /[!@#$%^&*(),.?":{}|<>]/;
+		const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+		// Validate fullname
+		if (!dataForm.full_name || dataForm.full_name === '') {
+			formErrors.erFullname = 'Vui lòng nhập họ và tên!';
+			isValid = false;
+		} else if (dataForm.full_name.length < 5) {
+			formErrors.erFullname = 'Vui lòng nhập họ và tên hơn 5 kí tự!';
+			isValid = false;
+		} else if (specialCharsRegex.test(dataForm.full_name)) {
+			formErrors.erFullname = 'Họ và tên không được chứa ký tự đặc biệt!';
+			isValid = false;
 		}
+		// Validate Email
+		if (!dataForm.email || dataForm.email === '') {
+			formErrors.erEmail = 'Vui lòng nhập email!';
+			isValid = false;
+		} else if (!emailPattern.test(dataForm.email)) {
+			formErrors.erEmail = 'Email không đúng định dạng!';
+			isValid = false;
+		}
+		// Validate password
+		if (!dataForm.password || dataForm.password === '') {
+			formErrors.erPassword = 'Vui lòng nhập mật khẩu!';
+			isValid = false;
+		} else if (dataForm.password.length < 8) {
+			formErrors.erPassword = 'Mật khẩu phải có ít nhất 8 kí tự!';
+			isValid = false;
+		}
+		// Validate repeact password
+		if (!dataForm.repeactpass || dataForm.repeactpass === '') {
+			formErrors.erRepeactPass = 'Vui lòng nhập lại mật khẩu để xác nhận!';
+			isValid = false;
+		} else if (dataForm.repeactpass !== dataForm.password) {
+			formErrors.erRepeactPass = 'Mật khẩu không trùng khớp!';
+			isValid = false;
+		}
+		// Set error
+		setErrors(formErrors);
+		return isValid;
 	};
 	// Submit
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		if (validateForm(dataForm)) {
-			setIsShowError(false);
+		if (validateForm()) {
 			// Call api
 			mutate(dataForm);
 		} else {
-			setIsShowError(true);
+			console.log('Đăng ký không thành công!');
 		}
 	};
-
+	// Check login
+	if (user.isLogin) return router.push('/');
 	return (
 		<div className='container mx-auto w-10/12 bg-white'>
 			<ToastContainer />
@@ -175,11 +164,11 @@ export default function Register() {
 									value={dataForm.full_name}
 									type='text'
 									className={`${
-										isMessageErrorName && isShowError ? 'mb-2 border-rose-600' : ''
+										errors && errors.erFullname ? 'mb-2 border-rose-600' : ''
 									} w-full appearance-none rounded border p-2 shadow focus:outline-none`}
 									onChange={handleInputChange}
 								/>
-								{isShowError && <p className='text-sm italic text-red-500'>{isMessageErrorName}</p>}
+								{errors && <p className='text-sm italic text-red-500'>{errors.erFullname}</p>}
 							</div>
 						</div>
 						{/* Email */}
@@ -194,11 +183,11 @@ export default function Register() {
 									value={dataForm.email}
 									type='text'
 									className={`${
-										isMessageErrorEmail && isShowError ? 'mb-2 border-rose-600' : ''
+										errors && errors.erEmail ? 'mb-2 border-rose-600' : ''
 									} w-full appearance-none rounded border p-2 shadow focus:outline-none`}
 									onChange={handleInputChange}
 								/>
-								{isShowError && <p className='text-sm italic text-red-500'>{isMessageErrorEmail}</p>}
+								{errors && <p className='text-sm italic text-red-500'>{errors.erEmail}</p>}
 							</div>
 						</div>
 						{/* Password */}
@@ -215,11 +204,11 @@ export default function Register() {
 									name='password'
 									value={dataForm.password}
 									className={`${
-										isMessageErrorPass && isShowError ? 'mb-2 border-rose-600' : ''
+										errors && errors.erPassword ? 'mb-2 border-rose-600' : ''
 									} w-full appearance-none rounded border p-2 shadow focus:outline-none`}
 									onChange={handleInputChange}
 								/>
-								{isShowError && <p className='text-sm italic text-red-500'>{isMessageErrorPass}</p>}
+								{errors && <p className='text-sm italic text-red-500'>{errors.erPassword}</p>}
 							</div>
 						</div>
 						{/* Repeact Password */}
@@ -236,11 +225,11 @@ export default function Register() {
 									name='repeactpass'
 									value={dataForm.repeactpass}
 									className={`${
-										isMessageErrorRepeactPass && isShowError ? 'mb-2 border-rose-600' : ''
+										errors && errors.erRepeactPass ? 'mb-2 border-rose-600' : ''
 									} w-full appearance-none rounded border p-2 shadow focus:outline-none`}
 									onChange={handleInputChange}
 								/>
-								{isShowError && <p className='text-sm italic text-red-500'>{isMessageErrorRepeactPass}</p>}
+								{errors && <p className='text-sm italic text-red-500'>{errors.erRepeactPass}</p>}
 							</div>
 						</div>
 						<div className='mt-4'>

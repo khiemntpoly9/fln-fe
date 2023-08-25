@@ -12,9 +12,9 @@ export const register = async (data: { full_name: string; email: string; passwor
 };
 
 // Login user
-export const login = async (email: string, password: string) => {
+export const login = async (data: { email: string; password: string }) => {
 	try {
-		const response = await newRequest.post('auth/login', { email, password });
+		const response = await newRequest.post('auth/login', { ...data });
 		newRequest.defaults.headers.common['Authorization'] = `Bearer ${response.data.accessToken}`;
 		return {
 			data: response.data,
