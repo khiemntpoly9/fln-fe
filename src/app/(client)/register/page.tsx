@@ -2,9 +2,11 @@
 'use client';
 import Link from 'next/link';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { FaFacebook, FaGoogle } from 'react-icons/fa';
 import { checkLogin, register } from '@/services/auth.service';
 import { ToastContainer, toast } from 'react-toastify';
+import { useMutation } from '@tanstack/react-query';
 import 'react-toastify/dist/ReactToastify.css';
 
 type DataRegister = {
@@ -20,12 +22,43 @@ export default function Register() {
 	const [isMessageErrorEmail, setIsMessageErrorEmail] = useState<string>('');
 	const [isMessageErrorPass, setIsMessageErrorPass] = useState<string>('');
 	const [isMessageErrorRepeactPass, setIsMessageErrorRepeactPass] = useState<string>('');
-
 	const [dataForm, setDataForm] = useState<DataRegister>({
 		full_name: '',
 		email: '',
 		password: '',
 		repeactpass: '',
+	});
+	const router = useRouter();
+
+	// Đăng ký
+	const { mutate } = useMutation({
+		mutationFn: (data: { full_name: string; email: string; password: string }) => register(data),
+		onSuccess: () => {
+			setTimeout(() => {
+				toast.success('Đã đăng ký thành công!', {
+					position: 'top-right',
+					autoClose: 3000,
+					hideProgressBar: false,
+					closeOnClick: true,
+					pauseOnHover: true,
+					draggable: true,
+					progress: undefined,
+				});
+				router.push('/login');
+			}, 100);
+		},
+		onError: () => {
+			setTimeout(() => {
+				toast.error(`Đăng ký thất bại`, {
+					position: 'top-right',
+					autoClose: 3000,
+					hideProgressBar: false,
+					closeOnClick: true,
+					pauseOnHover: true,
+					draggable: true,
+				});
+			}, 100);
+		},
 	});
 
 	const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,22 +69,6 @@ export default function Register() {
 		}));
 	};
 
-	// validate
-	// const validateForm2 = () => {
-	// 	//settime da dang ky thanh cong
-	// 	setTimeout(() => {
-	// 		toast.success('Đã đăng ký thành công!', {
-	// 			position: 'top-right',
-	// 			autoClose: 3000,
-	// 			hideProgressBar: false,
-	// 			closeOnClick: true,
-	// 			pauseOnHover: true,
-	// 			draggable: true,
-	// 			progress: undefined,
-	// 		});
-	// 	}, 1000);
-	// 	return true;
-	// };
 	// Validate Form
 	const validateForm = (data: DataRegister) => {
 		// Check fullname
@@ -65,7 +82,9 @@ export default function Register() {
 				setIsMessageErrorName('Họ và tên không được chứa ký tự đặc biệt!');
 			} else {
 				setIsMessageErrorName('');
+				return true;
 			}
+			return false;
 		};
 		// Check email
 		const checkEmail = (email: string) => {
@@ -76,7 +95,9 @@ export default function Register() {
 				setIsMessageErrorEmail('Email không đúng định dạng!');
 			} else {
 				setIsMessageErrorEmail('');
+				return true;
 			}
+			return false;
 		};
 		// Check password
 		const checkPassword = (password: string) => {
@@ -86,7 +107,9 @@ export default function Register() {
 				setIsMessageErrorPass('Mật khẩu phải có ít nhất 8 kí tự!');
 			} else {
 				setIsMessageErrorPass('');
+				return true;
 			}
+			return false;
 		};
 		// Check repeact password
 		const checkRepeactPass = (password: string, repeactpass: string) => {
@@ -96,29 +119,35 @@ export default function Register() {
 				setIsMessageErrorRepeactPass('Mật khẩu không trùng khớp!');
 			} else {
 				setIsMessageErrorRepeactPass('');
+				return true;
 			}
+			return false;
 		};
 		// Call check
-		checkFullName(data.full_name);
-		checkEmail(data.email);
-		checkPassword(data.password);
-		checkRepeactPass(data.password, data.repeactpass);
+		if (
+			checkFullName(data.full_name) &&
+			checkEmail(data.email) &&
+			checkPassword(data.password) &&
+			checkRepeactPass(data.password, data.repeactpass)
+		) {
+			return true;
+		}
 	};
 	// Submit
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		validateForm(dataForm);
-		if (!isMessageErrorName && !isMessageErrorEmail && !isMessageErrorPass && !isMessageErrorRepeactPass) {
+		if (validateForm(dataForm)) {
+			setIsShowError(false);
 			// Call api
-			console.log('Đăng nhập thành công!');
+			mutate(dataForm);
 		} else {
 			setIsShowError(true);
-			return false;
 		}
 	};
 
 	return (
 		<div className='container mx-auto w-10/12 bg-white'>
+			<ToastContainer />
 			<div className='flex min-h-full flex-1 flex-col justify-center lg:px-8'>
 				<div className='sm:mx-auto sm:w-full sm:max-w-sm'>
 					{/* logo */}
@@ -214,13 +243,6 @@ export default function Register() {
 								{isShowError && <p className='text-sm italic text-red-500'>{isMessageErrorRepeactPass}</p>}
 							</div>
 						</div>
-						{/* <div>
-							{isRegistered && (
-								<div className='rounded-md border border-green-400 bg-green-100 px-4 py-3 text-green-700'>
-									Đã đăng ký thành công!
-								</div>
-							)}
-						</div> */}
 						<div className='mt-4'>
 							<button
 								type='submit'
@@ -230,7 +252,6 @@ export default function Register() {
 							</button>
 						</div>
 					</form>
-					<ToastContainer />
 					<p className='mt-10 text-center text-sm text-gray-500'>
 						Bạn đã có tài khoản?{' '}
 						<Link href='/login' className='font-semibold leading-6 text-indigo-600 hover:text-indigo-500'>
