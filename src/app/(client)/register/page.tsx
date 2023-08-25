@@ -1,14 +1,14 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useRouter } from 'next/navigation';
+import { Context } from '@/contexts/context';
 import { FaFacebook, FaGoogle } from 'react-icons/fa';
-import { checkLogin, register } from '@/services/auth.service';
+import { register } from '@/services/auth.service';
 import { ToastContainer, toast } from 'react-toastify';
 import { useMutation } from '@tanstack/react-query';
 import 'react-toastify/dist/ReactToastify.css';
-import { type } from 'os';
 
 type DataRegister = {
 	full_name: string;
@@ -25,6 +25,7 @@ type ErrorsType = {
 };
 
 export default function Register() {
+	const { user } = useContext(Context);
 	const [errors, setErrors] = useState<ErrorsType>({});
 	const [dataForm, setDataForm] = useState<DataRegister>({
 		full_name: '',
@@ -131,7 +132,8 @@ export default function Register() {
 			console.log('Đăng ký không thành công!');
 		}
 	};
-
+	// Check login
+	if (user.isLogin) return router.push('/');
 	return (
 		<div className='container mx-auto w-10/12 bg-white'>
 			<ToastContainer />
