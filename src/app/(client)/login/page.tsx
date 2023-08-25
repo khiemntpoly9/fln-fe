@@ -32,6 +32,7 @@ export default function Login() {
 	const { mutate } = useMutation({
 		mutationFn: (data: { email: string; password: string }) => login(data),
 		onSuccess: () => {
+			user.setIsLogin(true);
 			console.log('Đăng nhập thành công');
 			router.push('/');
 		},
