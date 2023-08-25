@@ -38,30 +38,26 @@ export default function Register() {
 	const { mutate } = useMutation({
 		mutationFn: (data: { full_name: string; email: string; password: string }) => register(data),
 		onSuccess: () => {
-			setTimeout(() => {
-				toast.success('Đã đăng ký thành công!', {
-					position: 'top-right',
-					autoClose: 3000,
-					hideProgressBar: false,
-					closeOnClick: true,
-					pauseOnHover: true,
-					draggable: true,
-					progress: undefined,
-				});
-				router.push('/login');
-			}, 100);
+			toast.success('Đã đăng ký thành công!', {
+				position: 'top-right',
+				autoClose: 1000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+			});
+			router.push('/login');
 		},
 		onError: () => {
-			setTimeout(() => {
-				toast.error(`Đăng ký thất bại`, {
-					position: 'top-right',
-					autoClose: 3000,
-					hideProgressBar: false,
-					closeOnClick: true,
-					pauseOnHover: true,
-					draggable: true,
-				});
-			}, 100);
+			toast.error(`Đăng ký thất bại`, {
+				position: 'top-right',
+				autoClose: 3000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+			});
 		},
 	});
 	// Handle input change
