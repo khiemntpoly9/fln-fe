@@ -8,7 +8,6 @@ import { FaFacebook, FaGoogle } from 'react-icons/fa';
 import { register } from '@/services/auth.service';
 import { toast } from 'react-toastify';
 import { useMutation } from '@tanstack/react-query';
-import 'react-toastify/dist/ReactToastify.css';
 
 type DataRegister = {
 	full_name: string;
