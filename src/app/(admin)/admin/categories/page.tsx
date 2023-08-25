@@ -1,15 +1,28 @@
 'use client';
 
-import { create_cate } from '@/services/categories.service';
+import { create_cate, list_cate } from '@/services/categories.service';
 
 import React, { useState, useEffect } from 'react';
-import { useMutation } from 'react-query';
+import { useMutation } from '@tanstack/react-query';
 
 const Categories = () => {
+	const [categories, setCategories] = useState<any[]>([]);
 	const [name, setName] = useState<string>('');
 
 	//api gọi list
+	useEffect(() => {
+		const fetchCategories = async () => {
+			try {
+				const { data } = await list_cate();
+				setCategories(data);
+			} catch (error) {
+				console.error('Error fetching categories:', error);
+			}
+		};
 
+		fetchCategories();
+	}, []);
+	console.log(categories);
 	// api create thêm
 	const { mutate } = useMutation({
 		mutationFn: (name: string) => create_cate(name),
@@ -47,32 +60,34 @@ const Categories = () => {
 							<th>Xóa</th>
 						</tr>
 					</thead>
-					<tbody>
-						{/* row 1 */}
-						<tr>
-							<th>
-								<label>
-									<input type='checkbox' className='checkbox' />
-								</label>
-							</th>
-							<td>
-								<div className='flex items-center space-x-3'>
-									<div>
-										<div className='font-bold'>Hart Hagerty</div>
+					{categories.map((category: any) => (
+						<tbody key={category.id}>
+							{/* row 1 */}
+							<tr>
+								<th>
+									<label>
+										<input type='checkbox' className='checkbox' />
+									</label>
+								</th>
+								<td>
+									<div className='flex items-center space-x-3'>
+										<div>
+											<div className='font-bold'>{category.name}</div>
+										</div>
 									</div>
-								</div>
-							</td>
+								</td>
 
-							<td>
-								<button className='btn bg-lime-400 md:btn-xs' onClick={() => window.my_modal_4.showModal()}>
-									Sửa
-								</button>
-							</td>
-							<th>
-								<button className='btn bg-red-400 md:btn-xs'>Xóa</button>
-							</th>
-						</tr>
-					</tbody>
+								<td>
+									<button className='btn bg-lime-400 md:btn-xs' onClick={() => window.my_modal_4.showModal()}>
+										Sửa
+									</button>
+								</td>
+								<th>
+									<button className='btn bg-red-400 md:btn-xs'>Xóa</button>
+								</th>
+							</tr>
+						</tbody>
+					))}
 					{/* foot */}
 					<tfoot>
 						<tr>
