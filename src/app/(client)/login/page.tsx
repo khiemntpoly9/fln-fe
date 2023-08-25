@@ -36,7 +36,7 @@ export default function Login() {
 			user.setIsLogin(true);
 			toast.success('Đăng nhập thành công!', {
 				position: 'top-right',
-				autoClose: 1000,
+				autoClose: 500,
 				hideProgressBar: false,
 				closeOnClick: true,
 				pauseOnHover: true,
@@ -51,7 +51,7 @@ export default function Login() {
 		onError: () => {
 			toast.error('Đăng nhập thất bại!', {
 				position: 'top-right',
-				autoClose: 5000,
+				autoClose: 2000,
 				hideProgressBar: false,
 				closeOnClick: true,
 				pauseOnHover: true,
