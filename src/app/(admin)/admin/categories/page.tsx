@@ -1,8 +1,26 @@
 'use client';
 
-import React from 'react';
+import { create_cate } from '@/services/categories.service';
+import { useMutation } from '@tanstack/react-query';
+
+import React, { useState } from 'react';
 
 const Categories = () => {
+	// api create thêm
+	const { mutate } = useMutation({
+		mutationFn: (data: { name: string }) => create_cate(data),
+	});
+
+	// Submit thêm
+	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+		event.preventDefault();
+		const target = event.currentTarget;
+		const data: { name: string } = {
+			name: target.cat_name.value,
+		};
+		// call api
+		mutate(data);
+	};
 	return (
 		<div>
 			<div className='p-2'>
@@ -73,8 +91,8 @@ const Categories = () => {
 
 			{/* modal thêm */}
 			<dialog id='my_modal_3' className='modal'>
-				<form method='dialog' className='modal-box'>
-					<button className='btn btn-circle btn-ghost btn-sm absolute right-2 top-2'>✕</button>
+				<form method='dialog' className='modal-box ' onSubmit={handleSubmit}>
+					<div className='btn btn-circle btn-ghost btn-sm absolute right-2 top-2'>✕</div>
 					<div>
 						<h1 className='text-center'>Thêm thể loại</h1>
 						<div className='flex items-center justify-between'>
@@ -84,9 +102,9 @@ const Categories = () => {
 						</div>
 						<div className='mt-2'>
 							<input
-								id='cat'
+								id='cat_name'
 								name='cat'
-								type='cat'
+								type='text'
 								className='block w-full rounded-md border-0 px-5 py-2 text-black ring-1 ring-inset ring-orange-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6'
 							/>
 						</div>
@@ -107,7 +125,7 @@ const Categories = () => {
 			{/* modal sửa */}
 			<dialog id='my_modal_4' className='modal'>
 				<form method='dialog' className='modal-box'>
-					<button className='btn btn-circle btn-ghost btn-sm absolute right-2 top-2'>✕</button>
+					<div className='btn btn-circle btn-ghost btn-sm absolute right-2 top-2'>✕</div>
 					<div>
 						<h1 className='text-center'>Thêm thể loại</h1>
 						<div className='flex items-center justify-between'>
