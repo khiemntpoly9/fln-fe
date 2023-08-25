@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { Context } from '@/contexts/context';
 import { FaFacebook, FaGoogle } from 'react-icons/fa';
 import { register } from '@/services/auth.service';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { useMutation } from '@tanstack/react-query';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -136,7 +136,6 @@ export default function Register() {
 	if (user.isLogin) return router.push('/');
 	return (
 		<div className='container mx-auto w-10/12 bg-white'>
-			<ToastContainer />
 			<div className='flex min-h-full flex-1 flex-col justify-center lg:px-8'>
 				<div className='sm:mx-auto sm:w-full sm:max-w-sm'>
 					{/* logo */}
