@@ -21,3 +21,27 @@ export const create_cate = async (name: string) => {
 		throw error;
 	}
 };
+
+//sửa thể loại
+export const update_cate = async (id: number | null, name: string) => {
+	try {
+		// console.log(id);
+		const response = await newRequest.patch(`categories/update?id=${id}`, { name });
+		return { data: response.data, status: response.status };
+	} catch (error) {
+		console.error('Error fetching:', error);
+		throw error;
+	}
+};
+
+// xóa thể loại
+export const delete_cate = async (id: number | null) => {
+	try {
+		// console.log(id);
+		const response = await newRequest.delete(`categories/delete?id=${id}`);
+		return { data: response.data, status: response.status };
+	} catch (error) {
+		console.error('Error fetching:', error);
+		throw error;
+	}
+};

@@ -1,6 +1,6 @@
 'use client';
 
-import { create_cate, list_cate } from '@/services/categories.service';
+import { create_cate, delete_cate, list_cate, update_cate } from '@/services/categories.service';
 
 import React, { useState, useEffect } from 'react';
 import { useMutation } from '@tanstack/react-query';
@@ -8,6 +8,8 @@ import { useMutation } from '@tanstack/react-query';
 const Categories = () => {
 	const [categories, setCategories] = useState<any[]>([]);
 	const [name, setName] = useState<string>('');
+	const [newName, setNewName] = useState<string>('');
+	const [idCat, setIdCat] = useState<number | null>(null);
 
 	//api gọi list
 	useEffect(() => {
@@ -22,7 +24,7 @@ const Categories = () => {
 
 		fetchCategories();
 	}, []);
-	console.log(categories);
+	// console.log(categories);
 	// api create thêm
 	const { mutate } = useMutation({
 		mutationFn: (name: string) => create_cate(name),
@@ -35,6 +37,36 @@ const Categories = () => {
 		// call api
 		mutate(name);
 	};
+
+	// api sửa
+
+	const updateMutation = useMutation({
+		mutationFn: (newData: { id: number | null; newName: string }) => update_cate(newData.id, newData.newName),
+	});
+
+	const handleUpdate = async (categoriesId: number) => {
+		window.my_modal_4.showModal();
+
+		setIdCat(categoriesId);
+		// console.log(idToUpdate);
+	};
+	// Submit thêm
+	const updateSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+		event.preventDefault();
+
+		// call api
+		try {
+			// Gọi useMutation để thực hiện việc cập nhật
+			await updateMutation.mutateAsync({ id: idCat, newName: newName });
+
+			// Đã cập nhật thành công, bạn có thể thực hiện các thao tác cần thiết
+		} catch (error) {
+			console.error('Error updating category:', error);
+		}
+	};
+
+	// xóa
+	const handleDelete = async (categoriesId: number) => delete_cate(categoriesId);
 	return (
 		<div>
 			<div className='p-2'>
@@ -60,10 +92,9 @@ const Categories = () => {
 							<th>Xóa</th>
 						</tr>
 					</thead>
-					{categories.map((category: any) => (
-						<tbody key={category.id}>
-							{/* row 1 */}
-							<tr>
+					<tbody>
+						{categories?.map((category: any) => (
+							<tr key={category.id_categories}>
 								<th>
 									<label>
 										<input type='checkbox' className='checkbox' />
@@ -78,16 +109,24 @@ const Categories = () => {
 								</td>
 
 								<td>
-									<button className='btn bg-lime-400 md:btn-xs' onClick={() => window.my_modal_4.showModal()}>
+									<button
+										className='btn bg-lime-400 md:btn-xs'
+										onClick={() => handleUpdate(category.id_categories)}
+									>
 										Sửa
 									</button>
 								</td>
 								<th>
-									<button className='btn bg-red-400 md:btn-xs'>Xóa</button>
+									<button
+										className='btn bg-red-400 md:btn-xs'
+										onClick={() => handleDelete(category.id_categories)}
+									>
+										Xóa
+									</button>
 								</th>
 							</tr>
-						</tbody>
-					))}
+						))}
+					</tbody>
 					{/* foot */}
 					<tfoot>
 						<tr>
@@ -144,7 +183,7 @@ const Categories = () => {
 
 			{/* modal sửa */}
 			<dialog id='my_modal_4' className='modal'>
-				<form method='dialog' className='modal-box'>
+				<form method='dialog' className='modal-box' onSubmit={updateSubmit}>
 					<div>
 						<h1 className='text-center'>Thêm thể loại</h1>
 						<div className='flex items-center justify-between'>
@@ -157,6 +196,8 @@ const Categories = () => {
 								id='cat'
 								name='cat'
 								type='cat'
+								onChange={(e) => setNewName(e.target.value)}
+								value={newName}
 								className='block w-full rounded-md border-0 px-5 py-2 text-black ring-1 ring-inset ring-orange-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6'
 							/>
 						</div>
