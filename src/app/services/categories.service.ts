@@ -4,7 +4,7 @@ import newRequest from '@/utils/newRequest';
 export const list_cate = async () => {
 	try {
 		const response = await newRequest.get('categories/list-cate');
-		return { data: response.data, status: response.status };
+		return response;
 	} catch (error) {
 		// console.error('Error fetching:', error);
 		throw error;

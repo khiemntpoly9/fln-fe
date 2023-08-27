@@ -1,27 +1,18 @@
 'use client';
-import { create_cate, delete_cate, list_cate, update_cate } from '@/services/categories.service';
-import React, { useState, useEffect } from 'react';
-import { useMutation } from '@tanstack/react-query';
+import { list_cate } from '@/services/categories.service';
+import { useQuery } from '@tanstack/react-query';
 
 const Categories = () => {
-	const [categories, setCategories] = useState<any[]>([]);
-	const [name, setName] = useState<string>('');
-	const [newName, setNewName] = useState<string>('');
-	const [idCat, setIdCat] = useState<number | null>(null);
-
-	// API lấy danh sách
-	useEffect(() => {
-		const fetchCategories = async () => {
-			try {
-				const { data } = await list_cate();
-				setCategories(data);
-			} catch (error) {
-				console.error('Error fetching categories:', error);
-			}
-		};
-
-		fetchCategories();
-	}, []);
+	// Lấy data categories
+	const { data, isLoading } = useQuery({
+		queryKey: ['profile'],
+		queryFn: list_cate,
+		retry: 1,
+	});
+	// Nếu chưa load xong thì hiển thị loading
+	if (!data && isLoading) {
+		return <div>Loading...</div>;
+	}
 	return (
 		<div className='container'>
 			<div className='p-2'>
@@ -46,7 +37,7 @@ const Categories = () => {
 						</tr>
 					</thead>
 					<tbody>
-						{categories?.map((category: any) => (
+						{data?.data.map((category: any) => (
 							<tr key={category.id_categories}>
 								<th>
 									<label>
