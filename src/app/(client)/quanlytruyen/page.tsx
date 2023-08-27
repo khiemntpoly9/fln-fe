@@ -5,8 +5,8 @@ const Quanly = () => {
 	return (
 		<div className='mx-auto my-10 w-10/12 lg:w-8/12 '>
 			<div className='rounded-lg border border-black'>
-				<div className=' rounded-t-lg border border-black bg-zinc-300 p-3 md:p-5'>
-					<div className='  text-base font-bold text-black	'>Truyện của tôi:</div>
+				<div className='rounded-t-lg border border-black bg-zinc-300 p-3 md:p-5'>
+					<div className='text-base font-bold text-black'>Truyện của tôi:</div>
 				</div>
 				<div className='rounded-b-lg border border-black p-3 md:p-5'>
 					<div className='py-2 text-base text-black'>
@@ -21,8 +21,8 @@ const Quanly = () => {
 				</div>
 			</div>
 			<div className='my-5 rounded-lg border border-black'>
-				<div className=' group rounded-t-lg  border border-black bg-zinc-300  p-3 hover:bg-slate-600 md:p-4'>
-					<a href='#' className=' text-base text-black  group-hover:text-white'>
+				<div className='group rounded-t-lg  border border-black bg-zinc-300  p-3 hover:bg-slate-600 md:p-4'>
+					<a href='#' className='text-base text-black  group-hover:text-white'>
 						Thêm truyện mới
 					</a>
 				</div>
