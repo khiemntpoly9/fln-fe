@@ -268,6 +268,9 @@ export default function Header() {
 								<Link href='/profile'>Hệ thống</Link>
 							</li>
 							<li onClick={() => statusUser()}>
+								<Link href='/addTruyen'>Hệ thống</Link>
+							</li>
+							<li onClick={() => statusUser()}>
 								<Link href='/team'>Nhóm dịch</Link>
 							</li>
 							<li
